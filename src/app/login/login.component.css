@@ -1,0 +1,18 @@
+.tamanho{
+    position: relative;
+    width: 300px;
+    background-color: white;
+}
+a.direita{
+    position:relative;
+    right: -100px;
+}
+a.direita:hover{
+    color: gray;
+
+}
+.centro{
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}

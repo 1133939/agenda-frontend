@@ -1,3 +1,37 @@
-<p>
-  topo works!
-</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="">Psi Online</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Opções
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/">Listar Clientes</a>
+            <a class="dropdown-item" routerLink="/cadastrar_cliente">Novo Cliente</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Sair</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cadastrar_relatorio">Cadastrar Relatório</a>
+        </li>
+      </ul>
+      <div class="col-md-6">
+          
+        <input type="text" class="form-control" placeholder="Pesquise por cliente..." #stringPesquisa (keyup)="pesquisa(stringPesquisa.value)"/>
+
+
+        <ul class="list-group" style="position: absolute; z-index:999">
+          <li class="list-group-item" *ngFor="let cliente of clientes | async">
+            <a [routerLink] ="['/cliente',cliente.id]" (click)="limpaPesquisa()">
+            {{cliente.nome | uppercase}}
+            </a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>

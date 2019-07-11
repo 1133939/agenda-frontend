@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastrar-cliente',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastrarClienteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router : Router) { }
 
   ngOnInit() {
+    if(localStorage.getItem('user')== null){
+      this.router.navigate(['/login'])
+    }else{
+     
+    }
   }
 
 }

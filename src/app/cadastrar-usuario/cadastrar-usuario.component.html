@@ -1,0 +1,36 @@
+
+<div class="centro">
+<div class="tamanho">
+  
+  <form [formGroup]="formUsuario" (ngSubmit)="cadastrarUsuario()">
+  <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" placeholder="Nome" autocomplete=off formControlName="nome"> 
+        <small class="form-text text-danger" *ngIf="formUsuario.get('nome').invalid && formUsuario.get('nome').touched">
+          Nome inválido
+        </small> 
+        <label for="email">Email</label>
+        <input type="text" class="form-control" placeholder="Email" autocomplete=off  formControlName="email">
+        <small class="form-text text-danger" *ngIf="formUsuario.get('email').invalid && formUsuario.get('email').touched">
+          Email inválido
+        </small> 
+        <small class="form-text text-danger" *ngIf="formUsuario.get('email').pending">
+          Este email já está sendo usado
+        </small> 
+        <label for="exampleInputPassword1">Senha</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" 
+        autocomplete="off"  formControlName="senha" #stringSenha (keyup)="setSenha(stringSenha.value)">
+        <small class="form-text text-danger" *ngIf="formUsuario.get('senha').invalid && formUsuario.get('senha').touched"
+        >Senha deve conter pelo menos 6 caracteres</small>
+
+        <label for="exampleInputPassword1">Confirmar Senha</label>
+        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" 
+        autocomplete="off"  formControlName="confirmarSenha" #stringConfirmarSenha (keyup)="setConfirmarSenha(stringConfirmarSenha.value)">
+        <small class="form-text text-danger" *ngIf="formUsuario.get('confirmarSenha').touched  && formUsuario.get('confirmarSenha').pending"
+        >Não confere com a senha digitada</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+      <a class="direita" routerLink="/login">Login</a>
+    </form>
+    </div>
+  </div>
