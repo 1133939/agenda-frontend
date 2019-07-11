@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import {NgxMaskModule, IConfig} from 'ngx-mask'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TopoComponent } from './topo/topo.component';
@@ -14,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
 import { HttpClientModule } from '@angular/common/http';
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    NgxMaskModule.forRoot(options)
   ],
   providers: [],
   bootstrap: [AppComponent]

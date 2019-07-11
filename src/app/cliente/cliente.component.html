@@ -3,7 +3,7 @@
   <div class="tamanho">
     <div *ngIf="cliente !=undefined">
     <h4>{{cliente.nome}}</h4>
-    <h4>{{cliente.idade}}</h4>
+    <h4>{{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</h4>
     <h4>{{cliente.telefone}}</h4>
     <h4>{{cliente.endereco}}</h4>      
     <form>
