@@ -24,6 +24,10 @@ export class ClienteComponent implements OnInit {
   public formUpdate : FormGroup = new FormGroup({
     'descricao' : new FormControl(null,[Validators.required])
   })
+  public formDatas : FormGroup = new FormGroup({
+    'dataInicial' : new FormControl(null,[Validators.required]),
+    'dataFinal' : new FormControl(null,[Validators.required])
+  })
   constructor(private router : Router, 
     private route :ActivatedRoute, 
     private usuarioService : UsuarioService,
@@ -50,8 +54,8 @@ export class ClienteComponent implements OnInit {
     for(var aux of this.usuario.clientes){
       if(aux.id == param){
         this.clienteService.getClienteById(aux.id).subscribe((response:any)=>{
-this.cliente=response;
-console.log(response)
+           this.cliente=response;
+           console.log(response)
         })
         this.parecerService.getParecerByIdCliente(aux.id).subscribe((response:any)=>{
           this.pareceres = response;
@@ -64,6 +68,28 @@ console.log(response)
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
     console.log(response)
     })
+  }
+  buscarPorData(){
+    let dataInicial : Date = new Date();
+    let dataFinal : Date = new Date();
+
+    dataInicial.setFullYear(
+    +this.formDatas.get('dataInicial').value.substr(4,4), 
+    +this.formDatas.get('dataInicial').value.substr(2,2)-1,
+    +this.formDatas.get('dataInicial').value.substr(0,2));
+
+    dataFinal.setFullYear(
+      +this.formDatas.get('dataFinal').value.substr(4,4), 
+      +this.formDatas.get('dataFinal').value.substr(2,2)-1,
+      +this.formDatas.get('dataFinal').value.substr(0,2));
+
+    this.parecerService.getPareceresBetweenTwoDates(
+      this.cliente.id,
+      dataInicial,
+      dataFinal).subscribe((response:any)=>{
+        console.log(response)
+        this.pareceres = response;
+      })
   }
 
 }

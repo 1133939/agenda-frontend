@@ -90,7 +90,17 @@
     </div>
   </div>
 </div>
-<h2>Relatórios</h2>
+<h5>Relatórios</h5>
+
+
+<form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
+    <label for="exampleInputEmail1">Data inicial</label>
+  <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
+  <label for="exampleInputEmail1">Data final</label>
+  <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataFinal">
+  <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
 <table class="table table-hover">
     <thead>
       <tr>

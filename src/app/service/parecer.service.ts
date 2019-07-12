@@ -28,9 +28,14 @@ return this.http.get(`${URL_API}/parecer/${id}`).pipe(map((response:any)=>{
         
 })
         let options = {headers}
-        console.log(parecer.cliente.id)
          return this.http.post(`${URL_API}/parecer`,(parecer),options).pipe(map((response:any)=>{
              return response;
          }))
+     }
+     getPareceresBetweenTwoDates(id:number, dataInicial:Date, dataFinal:Date){
+        return this.http.get(`${URL_API}/parecer/cliente/${id}/datas/${dataInicial}/${dataFinal}`)
+        .pipe(map((response:any)=>{
+            return response;
+        }))
      }
 }
