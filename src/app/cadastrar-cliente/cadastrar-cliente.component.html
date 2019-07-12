@@ -11,7 +11,9 @@
         </small> 
             <label for="exampleInputEmail1">Data de Nascimento</label>
                 <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="nascimento" mask="00/00/0000">
-
+                <small class="form-text text-danger" *ngIf="form.get('nascimento').invalid && form.get('nascimento').touched">
+                   Data incorreta, digite neste formato dd/mm/aaaa.
+                  </small> 
             <label for="exampleInputEmail1">Telefone</label>
             <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="telefone" mask="(00)00000-0009">
 

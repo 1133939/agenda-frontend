@@ -11,7 +11,7 @@
     <tbody>
       <tr *ngFor="let cliente of usuario.clientes" [routerLink]="['/cliente', cliente.id]">
         <td scope="row">{{cliente.nome}}</td>
-        <td>{{cliente.telefone}}</td>
+        <td>{{cliente.telefone | mask : '(00)90000-0000'}}</td>
         <td *ngIf="cliente.status==1">ATIVO</td>
         <td *ngIf="cliente.status==2">INATIVO</td>
       </tr>

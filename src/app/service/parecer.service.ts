@@ -23,7 +23,10 @@ return this.http.get(`${URL_API}/parecer/${id}`).pipe(map((response:any)=>{
     }))
      }
      saveParecer(parecer : Parecer){
-        let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+        let headers = new HttpHeaders({
+        'Content-Type' : 'application/json'
+        
+})
         let options = {headers}
         console.log(parecer.cliente.id)
          return this.http.post(`${URL_API}/parecer`,(parecer),options).pipe(map((response:any)=>{

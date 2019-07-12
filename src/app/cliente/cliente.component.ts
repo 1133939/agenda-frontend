@@ -7,6 +7,7 @@ import { ClienteService } from '../service/cliente.service';
 import { Cliente } from '../model/cliente.model';
 import { ParecerService } from '../service/parecer.service';
 import { Parecer } from '../model/parecer.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cliente',
@@ -20,6 +21,9 @@ export class ClienteComponent implements OnInit {
   public email:string
   public cliente : Cliente
   public pareceres : Array<Parecer>
+  public formUpdate : FormGroup = new FormGroup({
+    'descricao' : new FormControl(null,[Validators.required])
+  })
   constructor(private router : Router, 
     private route :ActivatedRoute, 
     private usuarioService : UsuarioService,
@@ -54,6 +58,12 @@ console.log(response)
         })
       }
     }
+  }
+  addDescricao(){
+    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,this.formUpdate.get('descricao').value,null,null,null)
+    this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
+    console.log(response)
+    })
   }
 
 }

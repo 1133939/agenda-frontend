@@ -18,7 +18,7 @@ export class CadastrarClienteComponent implements OnInit {
   public usuario : Usuario;
 public form : FormGroup = new FormGroup({
   'nome' : new FormControl(null,[Validators.required]),
-  'nascimento' : new FormControl(null,[Validators.required]),
+  'nascimento' : new FormControl(null,[Validators.required, Validators.minLength(8)]),
   'telefone' : new FormControl(null,[Validators.required]),
   'endereco' : new FormControl(null,[Validators.required]),
 })
