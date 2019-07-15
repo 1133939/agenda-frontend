@@ -39,8 +39,11 @@ cadastrarCliente(cliente : Cliente):Observable<any>{
     let headers = new HttpHeaders({
         'Content-Type' : 'application/json'
     })
-    let options = {headers}
-return this.http.post(`${URL_API}/cliente`,(cliente),options).pipe(map((response:any)=>{
+  
+return this.http.post(`${URL_API}/cliente`,(cliente),{
+    observe: 'response',
+    responseType: 'text'
+}).pipe(map((response:any)=>{
     return response;
 }))
 }
@@ -50,7 +53,7 @@ updateCliente(cliente : Cliente):Observable<any>{
         'Authorization' : localStorage.getItem('user')
     })
     let options = {headers}
-return this.http.put(`${URL_API}/cliente/${cliente.id}`,(cliente),options).pipe(map((response:any)=>{
+return this.http.put(`${URL_API}/cliente/${cliente.id}`,(cliente),options,).pipe(map((response:any)=>{
         console.log(response)
         return response;
 }))

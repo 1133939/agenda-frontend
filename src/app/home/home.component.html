@@ -1,15 +1,19 @@
 <app-topo></app-topo>
-
+<div class="centro">
+<div *ngIf="usuario.clientes.length ==0;else showUsuarios">
+  <p>Você ainda não possui clientes</p>
+  </div>
+  <ng-template #showUsuarios>
 <table class="table table-hover">
     <thead>
-      <tr>
+      <tr class="bg-info">
         <th scope="col">Nome</th>
         <th scope="col">Telefone</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let cliente of usuario.clientes" [routerLink]="['/cliente', cliente.id]">
+      <tr *ngFor="let cliente of usuario.clientes" [routerLink]="['/cliente', cliente.id]" >
         <td scope="row">{{cliente.nome}}</td>
         <td>{{cliente.telefone | mask : '(00)90000-0000'}}</td>
         <td *ngIf="cliente.status==1">ATIVO</td>
@@ -17,3 +21,5 @@
       </tr>
     </tbody>
   </table>
+</ng-template>
+</div>

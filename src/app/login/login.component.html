@@ -1,16 +1,20 @@
+  
 <div class="centro">
-<div class="tamanho">
-<form [formGroup]="formLogin" (ngSubmit)="login()">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autocomplete="off" placeholder="nome@email.com" formControlName="email">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Senha</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" formControlName="senha" autocomplete="off">
-    </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
-    <a class="direita" routerLink="/cadastrar_usuario" >Cadastrar</a>
-  </form>
+  <div class="tamanho">
+  <form [formGroup]="formLogin" (ngSubmit)="login()">
+  <img class="rounded mx-auto d-block" src="../../assets/psicologia.png" alt="" width="300" height="180">
+  <h1 class="h3 mb-3 font-weight-normal">Psi Online
+  </h1>
+      <div class="form-group">
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Email" formControlName="email">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="senha" placeholder="Senha" formControlName="senha" autocomplete="off">
+      </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+  
+  <button class="btn btn-lg btn-secondary btn-block" type="button" routerLink="/cadastrar_usuario">Cadastrar</button>
+  <p class="mt-5 mb-3 text-muted">© 2019</p>
+</form>
 </div>
 </div>

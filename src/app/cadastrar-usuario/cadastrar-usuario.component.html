@@ -1,36 +1,83 @@
 
-<div class="centro">
-<div class="tamanho">
-  
-  <form [formGroup]="formUsuario" (ngSubmit)="cadastrarUsuario()">
-  <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" class="form-control" placeholder="Nome" autocomplete=off formControlName="nome"> 
-        <small class="form-text text-danger" *ngIf="formUsuario.get('nome').invalid && formUsuario.get('nome').touched">
-          Nome inválido
-        </small> 
-        <label for="email">Email</label>
-        <input type="text" class="form-control" placeholder="Email" autocomplete=off  formControlName="email">
-        <small class="form-text text-danger" *ngIf="formUsuario.get('email').invalid && formUsuario.get('email').touched">
-          Email inválido
-        </small> 
-        <small class="form-text text-danger" *ngIf="formUsuario.get('email').pending">
-          Este email já está sendo usado
-        </small> 
-        <label for="exampleInputPassword1">Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" 
-        autocomplete="off"  formControlName="senha" #stringSenha (keyup)="setSenha(stringSenha.value)">
-        <small class="form-text text-danger" *ngIf="formUsuario.get('senha').invalid && formUsuario.get('senha').touched"
-        >Senha deve conter pelo menos 6 caracteres</small>
-
-        <label for="exampleInputPassword1">Confirmar Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" 
-        autocomplete="off"  formControlName="confirmarSenha" #stringConfirmarSenha (keyup)="setConfirmarSenha(stringConfirmarSenha.value)">
-        <small class="form-text text-danger" *ngIf="formUsuario.get('confirmarSenha').touched  && formUsuario.get('confirmarSenha').pending"
-        >Não confere com a senha digitada</small>
+  <div class="container">
+      <div class="py-5 text-center">
+        <h1>Psi Online</h1>
+        <img class="d-block mx-auto mb-4" src="../../assets/psicologia.png" alt="" width="300" height="180" >
+        <p class="lead">Sistema de consultório online onde você pode cadastrar seus pacientes e seus vários relatórios</p>
       </div>
-      <button type="submit" class="btn btn-primary">Cadastrar</button>
-      <a class="direita" routerLink="/login">Login</a>
-    </form>
+      
+      <div class="row">
+        <div class="col-md-8 order-md-1">
+          <h5 class="mb-3">Cadastre aqui...</h5>
+
+
+          <form [formGroup]="formUsuario" (ngSubmit)="cadastrarUsuario()">
+              <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="form-control" placeholder="Nome" autocomplete=off formControlName="nome"> 
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('nome').invalid && formUsuario.get('nome').touched">
+                      Nome inválido
+                    </small> 
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" placeholder="Email" autocomplete=off  formControlName="email">
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('email').invalid && formUsuario.get('email').touched">
+                      Email inválido
+                    </small> 
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('email').pending">
+                      Este email já está sendo usado
+                    </small> 
+                    <label for="exampleInputPassword1">Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" 
+                    autocomplete="off"  formControlName="senha" #stringSenha (keyup)="setSenha(stringSenha.value)">
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('senha').invalid && formUsuario.get('senha').touched"
+                    >Senha deve conter pelo menos 6 caracteres</small>
+            
+                    <label for="exampleInputPassword1">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Senha" 
+                    autocomplete="off"  formControlName="confirmarSenha" #stringConfirmarSenha (keyup)="setConfirmarSenha(stringConfirmarSenha.value)">
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('confirmarSenha').touched  && formUsuario.get('confirmarSenha').pending"
+                    >Não confere com a senha digitada</small>
+                  </div>
+               
+            
+            <!-- Modal -->
+            
+            
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <div *ngIf="usuarioCadastrado; else usuarioNaoCadastrado">
+                        Usuário cadastrado com sucesso.
+                      </div>
+                      <ng-template #usuarioNaoCadastrado>
+                          Houve problemas ao cadastrar, tente de novo.
+                      </ng-template>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" routerLink="/login">Ok</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            
+
+       <!-- Button trigger modal -->
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit"  data-toggle="modal" data-target="#exampleModal">Cadastrar</button>
+            <button class="btn btn-primary btn-lg btn-block" type="button" routerLink="/login">Login</button>
+          </form>
+        </div>
+      </div>
+    
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2019 Psi Online</p>
+      </footer>
     </div>
-  </div>
+    

@@ -55,6 +55,7 @@ public form : FormGroup = new FormGroup({
             this.form.get('nome').markAsPending();
           }else{
             this.clienteService.cadastrarCliente(cliente).subscribe((response:any)=>{
+              console.log(response)
             })
           }
         })

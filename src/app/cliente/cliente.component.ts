@@ -19,7 +19,9 @@ export class ClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario = new Usuario(null,null,null,null,null)
   public email:string
+  public transferiu : boolean = false;
   public cliente : Cliente
+  public usuarioTransferir : Usuario;
   public pareceres : Array<Parecer>
   public formUpdate : FormGroup = new FormGroup({
     'descricao' : new FormControl(null,[Validators.required])
@@ -27,6 +29,16 @@ export class ClienteComponent implements OnInit {
   public formDatas : FormGroup = new FormGroup({
     'dataInicial' : new FormControl(null,[Validators.required]),
     'dataFinal' : new FormControl(null,[Validators.required])
+  })
+  public formUpdateCliente : FormGroup = new FormGroup({
+    'nome' : new FormControl(null, [Validators.required]),
+    'telefone' : new FormControl(null, [Validators.required]),
+    'nascimento' : new FormControl(null, [Validators.required]),
+    'endereco' : new FormControl(null, [Validators.required]),
+
+  })
+  public formTransferir : FormGroup = new FormGroup({
+    'email' : new FormControl(null,[Validators.required])
   })
   constructor(private router : Router, 
     private route :ActivatedRoute, 
@@ -91,5 +103,53 @@ export class ClienteComponent implements OnInit {
         this.pareceres = response;
       })
   }
+  updateCliente(){
+    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,null,null,null,null);
+    if(this.formUpdateCliente.get('nome').value !=null && this.formUpdateCliente.get('nome').value !=""){
+      cliente.nome=this.formUpdateCliente.get('nome').value
+      }
+      if(this.formUpdateCliente.get('nascimento').value !=null && this.formUpdateCliente.get('nascimento').value !=""){
+        let dataNasc : Date = new Date();
+        dataNasc.setFullYear(
+          +this.formUpdateCliente.get('nascimento').value.substr(4,4), 
+          +this.formUpdateCliente.get('nascimento').value.substr(2,2)-1,
+          +this.formUpdateCliente.get('nascimento').value.substr(0,2));
 
+          cliente.dataNascimento=dataNasc;
+      }
+      if(this.formUpdateCliente.get('telefone').value !=null && this.formUpdateCliente.get('telefone').value !=""){
+        cliente.telefone=this.formUpdateCliente.get('telefone').value
+      }
+      if(this.formUpdateCliente.get('endereco').value !=null && this.formUpdateCliente.get('endereco').value !=""){
+        cliente.endereco =  this.formUpdateCliente.get('endereco').value
+      }
+    this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
+    console.log(response)
+    })
+
+  }
+  transferirCliente(){
+    this.usuarioTransferir=null;
+this.usuarioService.getUsuarioByEmail(this.formTransferir.get('email').value).subscribe((response:any)=>{
+  this.usuarioTransferir = response;
+})
+  }
+  cancelarTransferencia(){
+    console.log(this.usuarioTransferir)
+    this.usuarioTransferir=null;
+  }
+  confirmarTransferencia(){
+    let cliente : Cliente = new Cliente (this.cliente.id,null,null,null,null,null,null,null);
+    let clientes : Array<Cliente> = new Array<Cliente>();
+    clientes.push(cliente);
+    let usuario : Usuario = new Usuario(this.usuario.id,null,null,null,clientes)
+    this.usuarioService.transferirUsuario(this.usuarioTransferir.id,usuario).subscribe((response:any)=>{
+      this.usuarioTransferir = response;
+      this.transferiu=true;
+      this.cliente=null;
+      this.usuarioTransferir=null;
+      this.pareceres=null
+      this.router.navigate(['/']);
+    })
+  }
 }

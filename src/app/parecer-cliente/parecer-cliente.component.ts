@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ParecerService } from '../service/parecer.service';
 import { Parecer } from '../model/parecer.model';
 import { Cliente } from '../model/cliente.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-parecer-cliente',
@@ -21,6 +22,10 @@ export class ParecerClienteComponent implements OnInit {
   public email:string
   public parecer : Parecer
   public cliente : Cliente
+  public formUpdateParecer : FormGroup = new FormGroup({
+'titulo' : new FormControl(null),
+'descricao' : new FormControl(null),
+  })
   constructor(private router : Router, 
     private route :ActivatedRoute, 
     private usuarioService : UsuarioService,
@@ -53,6 +58,25 @@ this.parecer=response;
       }
      }
     }
+  }
+  updateParecer(){
+    let parecer : Parecer = new Parecer(this.parecer.id,null,null,null,null)
+    if(this.formUpdateParecer.get('titulo').value!=null || this.formUpdateParecer.get('titulo').value!=""){
+parecer.titulo=this.formUpdateParecer.get('titulo').value;
+    }
+    if(this.formUpdateParecer.get('descricao').value!=null || this.formUpdateParecer.get('descricao').value!=""){
+      parecer.descricao=this.formUpdateParecer.get('descricao').value;
+    }
+    console.log(parecer.titulo)
+    this.parecerService.updateParecer(parecer).subscribe((response:any)=>{
+    console.log(response)
+    })
+  }
+  excluirParecer(){
+    let parecer : Parecer = new Parecer(this.parecer.id,null,null,null,null)
+    this.parecerService.deleteParecer(parecer).subscribe((response:any)=>{
+      console.log(response)
+      })
   }
 
 }

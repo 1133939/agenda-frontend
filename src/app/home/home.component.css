@@ -1,3 +1,10 @@
 .table-hover td {
     cursor: pointer;
 }
+p{
+    text-align: center;
+}
+.centro{
+margin:auto;
+width: 60%;
+}

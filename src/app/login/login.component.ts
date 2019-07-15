@@ -30,8 +30,9 @@ export class LoginComponent implements OnInit {
       if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
         localStorage.removeItem('user')
         this.router.navigate(['/login'])
+      }else{
+        this.router.navigate(['/'])
       }
-      this.router.navigate(['/'])
     }
 
   }
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
      localStorage.setItem('user',this.token);
      this.router.navigate([''])
     }),catchError((error:any)=>{
-      console.log(error)
+      console.log(error.status)
       return error;
     })
 

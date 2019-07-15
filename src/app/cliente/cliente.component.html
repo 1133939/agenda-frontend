@@ -1,11 +1,10 @@
 <app-topo></app-topo>
-<div class="centro">
-  <div class="tamanho">
+<div class="divesquerda">
     <div *ngIf="cliente !=undefined">
-    <h4>{{cliente.nome}}</h4>
-    <h4>{{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</h4>
-    <h4>{{cliente.telefone | mask: '(00)90000-0000'}}</h4>
-    <h4>{{cliente.endereco}}</h4>      
+    <p class="negrito">{{cliente.nome}}</p>
+    <p>Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
+    <p>Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
+    <p>Endereço: {{cliente.endereco}}</p>      
     <form [formGroup]="formUpdate" (ngSubmit)="addDescricao()">
       <div class="form-group">
         <label for="exampleFormControlTextarea1">Descrição do Cliente</label>
@@ -14,11 +13,12 @@
       <button type="submit" class="btn btn-primary">Salvar</button>
       <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
     </form>
+    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir Cliente</button>
     <br>
   </div>
+</div>
 
 
-      <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir Cliente</button>
   
 
      
@@ -33,22 +33,60 @@
           </button>
         </div>
         <div class="modal-body">
-         <form>
-            <div class="form-group">
+         <form [formGroup]="formTransferir" (ngSubmit)="transferirCliente()">
+           <div class="form-group">
+             <div *ngIf="usuarioTransferir == null; else transferido">
               <label for="exampleInputEmail1">Transferir para: </label>
-              <input type="text" class="form-control" placeholder="nomeDaPessoa@email.com" autocomplete=off>
+              <input type="text" class="form-control" placeholder="nomeDaPessoa@email.com" autocomplete=off formControlName="email">
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Transferir</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+             </div>
             </div> 
+             <ng-template #transferido>
+               <div *ngIf="usuarioTransferir.email == null; else usuarioExiste">
+                Este usuário não existe.
+               </div>
+               <ng-template #usuarioExiste>
+                  Deseja transferir {{cliente.nome}} para {{usuarioTransferir.nome}}<br> Email: "{{usuarioTransferir.email}}" ?
+                  <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="confirmarTransferencia()" data-target="#modalMensagem">Confirmar Transferência</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelarTransferencia()">Cancelar</button>
+              </div>  
+               </ng-template>
+            </ng-template>
+
           </form> 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-success">Transferir</button>
         </div>
       </div>
     </div>
   </div>
 
+<!-- MODAL-->
+  <div class="modal fade" id="modalMensagem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="transferiu; else naoTransferiu">
+              Cliente transferido.
+            </div>
+            <ng-template #naoTransferiu>
+              Não foi possível transferir este cliente;
+            </ng-template>
 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <!-- Modal -->
 <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,46 +99,45 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="formUpdateCliente" (ngSubmit)="updateCliente()">
         <div class="form-group">
           <label for="exampleInputEmail1">Nome</label>
-          <input type="text" class="form-control" placeholder="" autocomplete=off>
+          <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="nome">
 
-          <label for="exampleInputEmail1">Ano de Nascimento</label>
-              <input type="text" class="form-control" placeholder="1999" autocomplete=off>
-
-          <label for="exampleInputEmail1">Email</label>
-          <input type="text" class="form-control" placeholder="" autocomplete=off>
+          <label for="exampleInputEmail1">Data de Nascimento</label>
+              <input type="text" mask="00/00/0000"class="form-control" placeholder="xx/xx/xxxx" autocomplete=off formControlName="nascimento">
 
           <label for="exampleInputEmail1">Telefone</label>
-          <input type="text" class="form-control" placeholder="" autocomplete=off>
+          <input type="text" mask="(00)00000-0009" class="form-control" placeholder="" autocomplete=off formControlName="telefone">
 
           <label for="exampleInputEmail1">Endereço</label>
-          <input type="text" class="form-control" placeholder="" autocomplete=off>
+          <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="endereco">
       <!-- <small class="form-text text-danger" *ngIf="form.get('nome').invalid && form.get('nome').touched">
         Nome inválido
       </small>  -->
         </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+        </div>
       </form> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Salvar mudanças</button>
       </div>
     </div>
   </div>
 </div>
-<h5>Relatórios</h5>
+<div class="divdireita">
+<p class="negrito">Relatórios</p>
 
 
-<form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
-    <label for="exampleInputEmail1">Data inicial</label>
+<!-- <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
+  <label for="exampleInputEmail1">Data inicial</label>
   <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
   <label for="exampleInputEmail1">Data final</label>
   <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataFinal">
   <button type="submit" class="btn btn-primary">Buscar</button>
-</form>
+</form> -->
 
+<div *ngIf="cliente !=undefined">
 <table class="table table-hover">
     <thead>
       <tr>
@@ -109,15 +146,13 @@
       </tr>
     </thead>
     <tbody>
-        <div *ngIf="cliente !=undefined">
       <tr *ngFor="let parecer of pareceres"[routerLink]="['/relatorio_cliente', parecer.id]">
         <td scope="row">{{parecer.titulo}}</td>
         <td>{{parecer.data | date: 'dd/MM/yyyy'}}</td>
       </tr>
-      </div>
     </tbody>
   </table>
-
-      </div>
-    </div>
+</div>
+</div>
+    
     

@@ -21,18 +21,23 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('user')== null){
       this.router.navigate(['/login'])
-    }else{
-      
+    }else
+    if(localStorage.getItem('user')!= null){
+      if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
+        localStorage.removeItem('user')
+        this.router.navigate(['/login'])
+    }
+    else{
       this.email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
       this.usuarioService.getUsuarioByEmail(this.email).subscribe((response:any)=>{
         this.usuario = response;
       })
     }
-      
-
   }
+}
 mostrarCliente(cliente : Cliente){
   this.router.navigate(['/cliente'])
   console.log(cliente)
+
 }
 }

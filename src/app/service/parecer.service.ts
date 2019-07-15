@@ -38,4 +38,27 @@ return this.http.get(`${URL_API}/parecer/${id}`).pipe(map((response:any)=>{
             return response;
         }))
      }
+     updateParecer(parecer : Parecer):Observable<any>{
+        let headers = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Authorization' : localStorage.getItem('user')
+        })
+        let options = {headers}
+    return this.http.put(`${URL_API}/parecer/${parecer.id}`,(parecer),options).pipe(map((response:any)=>{
+            console.log(response)
+            return response;
+    }))
+     }
+     deleteParecer(parecer : Parecer){
+        let headers = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Authorization' : localStorage.getItem('user')
+        })
+        let options = {headers}
+    return this.http.delete(`${URL_API}/parecer/${parecer.id}`,options).pipe(map((response:any)=>{
+            console.log(response)
+            return response;
+    }))
+     }
 }
+

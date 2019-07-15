@@ -16,3 +16,8 @@ a.direita:hover{
     margin-right: auto;
     width: 300px;
 }
+h1{
+    color:#72929a;
+    text-shadow: 1px 1px rgb(68, 67, 67);
+    
+}

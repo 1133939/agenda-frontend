@@ -22,22 +22,25 @@ export class TopoComponent implements OnInit {
   constructor(private clienteService : ClienteService, private usuarioService : UsuarioService, private router : Router) { }
 
   ngOnInit() {
-    this.usuarioService.getUsuarioByEmail(this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub).subscribe((response:any)=>{
-      this.usuario = response;
-    })
-    this.clientes = this.subjectPesquisa //retorno Oferta[]
-    .pipe(debounceTime(1000),distinctUntilChanged(), switchMap((termo:string)=>{
-      if(termo.trim()===''){
-        return of<Array<Cliente>>([])
-      }   
-      return this.clienteService.pesquisaCliente(termo, this.usuario.id)  //observable de array de ofertas
+    if(localStorage.getItem('user') !=null){
 
-  }),catchError((erro) => {
-    console.log(erro)
-    return of<Array<Cliente>>([])
-  })
-  
-  )  }
+      this.usuarioService.getUsuarioByEmail(this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub).subscribe((response:any)=>{
+        this.usuario = response;
+      })
+      this.clientes = this.subjectPesquisa //retorno Oferta[]
+      .pipe(debounceTime(1000),distinctUntilChanged(), switchMap((termo:string)=>{
+        if(termo.trim()===''){
+          return of<Array<Cliente>>([])
+        }   
+        return this.clienteService.pesquisaCliente(termo, this.usuario.id)  //observable de array de ofertas
+        
+      }),catchError((erro) => {
+        console.log(erro)
+        return of<Array<Cliente>>([])
+      })
+      
+      )  }
+    }
 
   public pesquisa(pesquisa : string){
 
