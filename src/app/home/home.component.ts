@@ -26,13 +26,15 @@ export class HomeComponent implements OnInit {
       if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
         localStorage.removeItem('user')
         this.router.navigate(['/login'])
-    }
-    else{
-      this.email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
-      this.usuarioService.getUsuarioByEmail(this.email).subscribe((response:any)=>{
-        this.usuario = response;
-      })
-    }
+      }
+      else{
+        this.email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
+        this.usuarioService.getUsuarioByEmail(this.email).subscribe((response:any)=>{
+          this.usuario = response;
+          console.log(this.usuario)
+        })
+      }
+   
   }
 }
 mostrarCliente(cliente : Cliente){

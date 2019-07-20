@@ -1,6 +1,9 @@
 .tamanho{
     position:relative;
     background-color: white;
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;
 }
 a.direita{
     position:relative;
@@ -13,7 +16,7 @@ a.direita:hover{
 .centro{
 margin-left: auto;
 margin-right: auto;
-    width: 50%;
+    width: 100%;
     
 }
 h1{

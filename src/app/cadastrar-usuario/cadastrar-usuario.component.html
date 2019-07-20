@@ -1,7 +1,7 @@
 
   <div class="container">
       <div class="py-5 text-center">
-        <h1>Psi Online</h1>
+        <h1>Clínica Online</h1>
         <img class="d-block mx-auto mb-4" src="../../assets/psicologia.png" alt="" width="300" height="180" >
         <p class="lead">Sistema de consultório online onde você pode cadastrar seus pacientes e seus vários relatórios</p>
       </div>
@@ -47,21 +47,28 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
+                    <h3>Mensagem</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
-                      <div *ngIf="usuarioCadastrado; else usuarioNaoCadastrado">
+                  <div *ngIf="usuarioCadastrado; else usuarioNaoCadastrado">
+                    <div class="modal-body">
                         Usuário cadastrado com sucesso.
                       </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal" routerLink="/login">Ok</button>
+                        </div>
+                      </div>
                       <ng-template #usuarioNaoCadastrado>
+                          <div class="modal-body">
                           Houve problemas ao cadastrar, tente de novo.
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                            </div>
                       </ng-template>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" routerLink="/login">Ok</button>
-                  </div>
+                  
                 </div>
               </div>
             </div>

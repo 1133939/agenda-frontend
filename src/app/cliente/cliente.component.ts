@@ -8,6 +8,8 @@ import { Cliente } from '../model/cliente.model';
 import { ParecerService } from '../service/parecer.service';
 import { Parecer } from '../model/parecer.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ClienteDTO } from '../model/clienteDTO.model';
+import { UsuarioDTO } from '../model/usuarioDTO.model';
 
 @Component({
   selector: 'app-cliente',
@@ -67,7 +69,6 @@ export class ClienteComponent implements OnInit {
       if(aux.id == param){
         this.clienteService.getClienteById(aux.id).subscribe((response:any)=>{
            this.cliente=response;
-           console.log(response)
         })
         this.parecerService.getParecerByIdCliente(aux.id).subscribe((response:any)=>{
           this.pareceres = response;
@@ -76,7 +77,7 @@ export class ClienteComponent implements OnInit {
     }
   }
   addDescricao(){
-    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,this.formUpdate.get('descricao').value,null,null,null)
+    let cliente : ClienteDTO = new ClienteDTO(this.cliente.id,null,null,null,this.formUpdate.get('descricao').value,null,null,null)
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
     console.log(response)
     })
@@ -102,9 +103,11 @@ export class ClienteComponent implements OnInit {
         console.log(response)
         this.pareceres = response;
       })
-  }
-  updateCliente(){
-    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,null,null,null,null);
+    }
+    updateCliente(){
+      
+      console.log("ASDAKLSDJLAS")
+    let cliente : ClienteDTO = new ClienteDTO(this.cliente.id,null,null,null,null,null,null,null);
     if(this.formUpdateCliente.get('nome').value !=null && this.formUpdateCliente.get('nome').value !=""){
       cliente.nome=this.formUpdateCliente.get('nome').value
       }
@@ -124,7 +127,8 @@ export class ClienteComponent implements OnInit {
         cliente.endereco =  this.formUpdateCliente.get('endereco').value
       }
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
-    console.log(response)
+      this.buscandoCliente(this.cliente.id);
+
     })
 
   }
@@ -139,17 +143,29 @@ this.usuarioService.getUsuarioByEmail(this.formTransferir.get('email').value).su
     this.usuarioTransferir=null;
   }
   confirmarTransferencia(){
-    let cliente : Cliente = new Cliente (this.cliente.id,null,null,null,null,null,null,null);
-    let clientes : Array<Cliente> = new Array<Cliente>();
+    let cliente : ClienteDTO = new ClienteDTO (this.cliente.id,null,null,null,null,null,null,null);
+    let clientes : Array<ClienteDTO> = new Array<ClienteDTO>();
     clientes.push(cliente);
-    let usuario : Usuario = new Usuario(this.usuario.id,null,null,null,clientes)
+    let usuario : UsuarioDTO = new UsuarioDTO(this.usuario.id,null,null,null,clientes)
     this.usuarioService.transferirUsuario(this.usuarioTransferir.id,usuario).subscribe((response:any)=>{
       this.usuarioTransferir = response;
       this.transferiu=true;
       this.cliente=null;
       this.usuarioTransferir=null;
       this.pareceres=null
-      this.router.navigate(['/']);
+    })
+  }
+  mudarStatusCliente(status : string){
+    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,null,null,null,null,null);
+    if(status=='ativo'){
+cliente.status=0;
+    }else
+    if(status == 'inativo'){
+cliente.status=1;
+    }
+    this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
+      this.buscandoCliente(this.cliente.id);
+      return response;
     })
   }
 }

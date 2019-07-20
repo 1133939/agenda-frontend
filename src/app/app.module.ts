@@ -14,7 +14,8 @@ import { ParecerClienteComponent } from './parecer-cliente/parecer-cliente.compo
 import { RouterModule } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from 'src/interceptors/error-interceptor';
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
@@ -37,7 +38,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     RouterModule.forRoot(ROUTES),
     NgxMaskModule.forRoot(options)
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

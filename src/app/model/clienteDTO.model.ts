@@ -1,7 +1,7 @@
-import { Parecer } from './parecer.model';
 import { Usuario } from './usuario.model';
+import { Parecer } from './parecer.model';
 
-export class Cliente {
+export class ClienteDTO{
     constructor(
         public id : number, 
         public nome : string, 
@@ -11,7 +11,7 @@ export class Cliente {
         public dataNascimento : Date, 
         public pareceres : Array<Parecer>,
         public usuario : Usuario,
-        public status : number){
+       ){
 
     }
 }

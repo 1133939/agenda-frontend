@@ -2,15 +2,12 @@
 <div class="centro">
   <div class="tamanho">
   <form [formGroup]="formLogin" (ngSubmit)="login()">
-  <img class="rounded mx-auto d-block" src="../../assets/psicologia.png" alt="" width="300" height="180">
-  <h1 class="h3 mb-3 font-weight-normal">Psi Online
+  <img  src="../../assets/psicologia.png" alt="" width="300" height="180">
+  <h1 class="h3 mb-3 font-weight-normal">Clínica Online
   </h1>
-      <div class="form-group">
+
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Email" formControlName="email">
-      </div>
-      <div class="form-group">
         <input type="password" class="form-control" id="senha" placeholder="Senha" formControlName="senha" autocomplete="off">
-      </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
   
   <button class="btn btn-lg btn-secondary btn-block" type="button" routerLink="/cadastrar_usuario">Cadastrar</button>

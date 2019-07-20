@@ -1,6 +1,6 @@
 <app-topo></app-topo>
 <div class="divesquerda">
-    <div *ngIf="cliente !=undefined">
+    <div *ngIf="cliente !=undefined;else clienteNaoExiste">
     <p class="negrito">{{cliente.nome}}</p>
     <p>Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
     <p>Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
@@ -17,7 +17,9 @@
     <br>
   </div>
 </div>
-
+<ng-template #clienteNaoExiste>
+  <p>Este cliente não existe</p>
+</ng-template>
 
   
 
@@ -51,7 +53,7 @@
                <ng-template #usuarioExiste>
                   Deseja transferir {{cliente.nome}} para {{usuarioTransferir.nome}}<br> Email: "{{usuarioTransferir.email}}" ?
                   <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="confirmarTransferencia()" data-target="#modalMensagem">Confirmar Transferência</button>
+                <button type="button" class="btn btn-success" (click)="confirmarTransferencia()" data-target="#modalMensagem" data-dismiss="modal"  data-toggle="modal">Confirmar Transferência</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelarTransferencia()">Cancelar</button>
               </div>  
                </ng-template>
@@ -77,12 +79,12 @@
               Cliente transferido.
             </div>
             <ng-template #naoTransferiu>
-              Não foi possível transferir este cliente;
+              Houve problemas, cliente não transferido
             </ng-template>
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
           </div>
         </div>
       </div>
@@ -125,19 +127,19 @@
     </div>
   </div>
 </div>
-<div class="divdireita">
-<p class="negrito">Relatórios</p>
 
 
-<!-- <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
-  <label for="exampleInputEmail1">Data inicial</label>
-  <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
-  <label for="exampleInputEmail1">Data final</label>
-  <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataFinal">
-  <button type="submit" class="btn btn-primary">Buscar</button>
-</form> -->
 
 <div *ngIf="cliente !=undefined">
+  <div class="divdireita">
+    <p class="negrito">Relatórios</p>
+      <!-- <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
+        <label for="exampleInputEmail1">Data inicial</label>
+        <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
+        <label for="exampleInputEmail1">Data final</label>
+        <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataFinal">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form> -->
 <table class="table table-hover">
     <thead>
       <tr>
@@ -152,7 +154,40 @@
       </tr>
     </tbody>
   </table>
+<!-- Botão para acionar modal -->
+<div *ngIf="cliente.status=='1';else clienteInativo">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('inativo')">
+   Desativar
+  </button>
+</div>
+<ng-template #clienteInativo>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('ativo')">
+        Ativar
+       </button>
+</ng-template>
+  <!-- Modal -->
+  <div class="modal fade" id="mudarStatusCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         Status do cliente alterado com sucesso.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
+
+
     
     

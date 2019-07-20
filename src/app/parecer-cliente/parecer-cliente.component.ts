@@ -19,9 +19,11 @@ export class ParecerClienteComponent implements OnInit {
 
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario = new Usuario(null,null,null,null,null)
+  public blob : Blob;
   public email:string
   public parecer : Parecer
   public cliente : Cliente
+  public excluido : number=0;
   public formUpdateParecer : FormGroup = new FormGroup({
 'titulo' : new FormControl(null),
 'descricao' : new FormControl(null),
@@ -73,10 +75,33 @@ parecer.titulo=this.formUpdateParecer.get('titulo').value;
     })
   }
   excluirParecer(){
+    this.excluido=2;
     let parecer : Parecer = new Parecer(this.parecer.id,null,null,null,null)
     this.parecerService.deleteParecer(parecer).subscribe((response:any)=>{
-      console.log(response)
+      this.excluido=1
       })
   }
+  excluirOptions(){
+    this.excluido=0;
+  }
+  downloadPDF(){
+    this.parecerService.getPdf(this.parecer.id).subscribe((resultBlob: Blob) => {
+      var downloadURL = URL.createObjectURL(resultBlob);
+      window.open(downloadURL);});
+    
+      this.parecerService.getPdf(this.parecer.id).subscribe((data:any) => {
+
+        this.blob = new Blob([data], {type: 'application/pdf'});
+      
+        var downloadURL = window.URL.createObjectURL(data);
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = this.parecer.titulo+".pdf";
+        link.click();
+      
+      });
+
+  }
+  
 
 }

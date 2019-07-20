@@ -35,6 +35,10 @@ public form : FormGroup = new FormGroup({
 }
   }
   cadastrarCliente(){
+    this.form.get('nome').markAsTouched();
+    this.form.get('nascimento').markAsTouched();
+    this.form.get('telefone').markAsTouched();
+    this.form.get('endereco').markAsTouched();
     if(this.form.valid){
       let usuario : Usuario = new Usuario (this.usuario.id,null,null,null,null)
       let data_string : string
@@ -49,7 +53,8 @@ public form : FormGroup = new FormGroup({
         null,
         data_nascimento,
         null,
-        usuario)
+        usuario,
+        0)
         this.clienteService.findClienteByNome(this.form.get('nome').value, this.usuario.id).subscribe((response:any)=>{
           if(response.nome != null){
             this.form.get('nome').markAsPending();

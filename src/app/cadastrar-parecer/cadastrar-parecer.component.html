@@ -7,8 +7,8 @@
         <option>Selecione...</option>
         <option *ngFor="let cliente of clientes">{{cliente.nome}}</option>
       </select>
-      <small class="form-text text-danger" *ngIf="form.get('cliente').pending">
-          Selecione um cliente
+      <small class="form-text text-danger" *ngIf="form.get('cliente').pending || form.get('cliente').touched && form.get('cliente').invalid">
+          Selecione um cliente ou cadastre um novo
         </small> 
     </div>
     <div class="form-group">
@@ -26,5 +26,35 @@
     <small class="form-text text-danger" *ngIf="form.get('descricao').invalid && form.get('descricao').touched">
         Descrição mínima de 10 caracteres.
       </small> 
-    <button type="submit" class="btn btn-primary mb-2">Cadastrar Relatório</button>
+    <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#cadastroMensagem">Cadastrar Relatório</button>
   </form>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="cadastroMensagem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div *ngIf="parecerCadastrado">
+          <div class="modal-body">
+            Relatório cadastrado.
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="['/cliente',cliente.id]">Ok</button>
+            </div>
+        </div>
+          <div *ngIf="!parecerCadastrado">
+              <div class="modal-body">
+            Houve problemas ao cadastrar, tente de novo.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>

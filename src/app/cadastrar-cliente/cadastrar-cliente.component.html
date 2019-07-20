@@ -1,13 +1,13 @@
 <app-topo></app-topo>
 <div class="centro">
     <div class="tamanho">
-      
+      <h3>Cadastrar Cliente</h3>
       <form [formGroup]="form" (ngSubmit)="cadastrarCliente()">
       <div class="form-group">
             <label for="exampleInputEmail1">Nome</label>
             <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="nome">
 <small class="form-text text-danger" *ngIf="form.get('nome').pending">
-          Este nome já existe na sua base de dados.
+          Este nome já existe na sua base de dados, escolha outro para facilitar.
         </small> 
             <label for="exampleInputEmail1">Data de Nascimento</label>
                 <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="nascimento" mask="00/00/0000">
@@ -16,12 +16,14 @@
                   </small> 
             <label for="exampleInputEmail1">Telefone</label>
             <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="telefone" mask="(00)00000-0009">
-
+            <small class="form-text text-danger" *ngIf="form.get('endereco').invalid && form.get('endereco').touched">
+                Digite um telefone, caso não saiba, bote um qualquer e altere depois EX: (61)98765-1234 ou telefone fixo (61)33645-333.
+              </small>
             <label for="exampleInputEmail1">Endereço</label>
             <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="endereco">
-        <!-- <small class="form-text text-danger" *ngIf="form.get('nome').invalid && form.get('nome').touched">
-          Nome inválido
-        </small>  -->
+        <small class="form-text text-danger" *ngIf="form.get('endereco').invalid && form.get('endereco').touched">
+          Digite um endereço, caso não saiba, bote um qualquer e altere depois.
+        </small> 
           </div>
           <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>

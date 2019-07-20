@@ -1,7 +1,9 @@
 <app-topo></app-topo>
 <div class="centro">
-<div *ngIf="usuario.clientes.length ==0;else showUsuarios">
-  <p>Você ainda não possui clientes</p>
+<div *ngIf="usuario.clientes !== null">
+  <div *ngIf="usuario.clientes.length==0;else showUsuarios">
+    <p>Você ainda não possui clientes</p>
+  </div>
   </div>
   <ng-template #showUsuarios>
 <table class="table table-hover">

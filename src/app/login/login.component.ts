@@ -39,13 +39,10 @@ export class LoginComponent implements OnInit {
   login() :void{
     let usuario : Credenciais = new Credenciais (this.formLogin.value.email, this.formLogin.value.senha)
     this.usuarioService.auth(usuario).subscribe((response:any)=>{
-     this.token = response.headers.get('Authorization')
-     localStorage.setItem('user',this.token);
-     this.router.navigate([''])
-    }),catchError((error:any)=>{
-      console.log(error.status)
-      return error;
-    })
+      this.token = response.headers.get('Authorization')
+      localStorage.setItem('user',this.token);
+      this.router.navigate([''])
+    },error=>{})
 
     
   }

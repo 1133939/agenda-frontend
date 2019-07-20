@@ -16,7 +16,9 @@ import { Parecer } from '../model/parecer.model';
   providers:[UsuarioService, ClienteService, ParecerService]
 })
 export class CadastrarParecerComponent implements OnInit {
+  public cliente : Cliente = new Cliente(null,null,null,null,null,null,null,null,null)
   public usuario:Usuario;
+  public parecerCadastrado : boolean
   public clientes : Cliente;
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public form : FormGroup = new FormGroup({
@@ -41,29 +43,36 @@ export class CadastrarParecerComponent implements OnInit {
     }
   }
   cadastrarParecer(){
+    this.parecerCadastrado=false;
     if(this.form.valid){
 
-      let cliente : Cliente = new Cliente(null,null,null,null,null,null,null,null)
       for(let aux of this.usuario.clientes){
         if(aux.nome==this.form.get('cliente').value){
-          cliente.id = aux.id;
+          this.cliente.id = aux.id;
       }
     }
-    if(cliente.id!=null){
+    if(this.cliente.id!=null){
       let parecer : Parecer = new Parecer(
         null,
         null,
-        cliente,
+        this.cliente,
         this.form.get('titulo').value,
         this.form.get('descricao').value)
 
         this.parecerService.saveParecer(parecer).subscribe((response:any)=>{
-          console.log(response)
+          this.parecerCadastrado=true;
         })
       }else{
         this.form.get('cliente').markAsPending()
       }
+    }else{
+      this.form.get('cliente').markAsTouched()
+      this.form.get('titulo').markAsTouched()
+      this.form.get('descricao').markAsTouched()
     }
+  }
+  cadastroOptions(){
+    this.parecerCadastrado=false;
   }
 
 }

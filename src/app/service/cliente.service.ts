@@ -6,26 +6,43 @@ import {  retryWhen, delay, take, map, retry } from 'rxjs/operators';
 import { URL_API } from '../util/URL_API';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Cliente } from '../model/cliente.model';
+import { ClienteDTO } from '../model/clienteDTO.model';
 
 @Injectable()
 export class ClienteService {
 constructor(public http : HttpClient){
 }
 
- getClienteById(id : number) : Observable<any>{
-return this.http.get(`${URL_API}/cliente/${id}`).pipe(map((response:any)=>{
+ getClienteById(id : number) : Observable<any>{    let headers = new HttpHeaders({
+    'Content-Type' : 'application/json',
+    'Authorization' : localStorage.getItem('user')
+})
+let options = {headers}
+return this.http.get(`${URL_API}/cliente/${id}`,options).pipe(map((response:any)=>{
     return response;
 }))
  }
 
  getClienteByUsuarioAndAtivo(id : number) : Observable<any>{
-    return this.http.get(`${URL_API}/cliente/ativos/usuario/${id}`).pipe(map((response:any)=>{
+    let headers = new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'Authorization' : localStorage.getItem('user')
+    })
+    let options = {headers}
+    return this.http.get(`${URL_API}/cliente/ativos/usuario/${id}`,options).pipe(map((response:any)=>{
         return response;
-    }))
+    })).pipe(retryWhen((errors : any)=> {
+        return errors.pipe(delay(10), take(1))}
+       ))
      }
 
  pesquisaCliente(termo : string, id : number): Observable<Array<Cliente>>{
-    return this.http.get<Array<Cliente>>(`${URL_API}/cliente/usuario/${id}/nome/${termo}`)
+    let headers = new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'Authorization' : localStorage.getItem('user')
+    })
+    let options = {headers}
+    return this.http.get<Array<Cliente>>(`${URL_API}/cliente/usuario/${id}/nome/${termo}`,options)
     .pipe(retry(10))
     .pipe(map((resposta:any) => resposta))
 }
@@ -33,7 +50,9 @@ findClienteByNome(termo: string, id:number) :Observable<any>{
     return this.http.get<Array<Cliente>>(`${URL_API}/cliente/nome/${termo}/${id}`)
     .pipe(map((resposta:any) => {
        return resposta
-    }))
+    })).pipe(retryWhen((errors : any)=> {
+        return errors.pipe(delay(10), take(1))}
+       ))
 }
 cadastrarCliente(cliente : Cliente):Observable<any>{
     let headers = new HttpHeaders({
@@ -45,17 +64,20 @@ return this.http.post(`${URL_API}/cliente`,(cliente),{
     responseType: 'text'
 }).pipe(map((response:any)=>{
     return response;
-}))
+})).pipe(retryWhen((errors : any)=> {
+    return errors.pipe(delay(10), take(1))}
+   ))
 }
-updateCliente(cliente : Cliente):Observable<any>{
+updateCliente(cliente : ClienteDTO):Observable<any>{
     let headers = new HttpHeaders({
         'Content-Type' : 'application/json',
         'Authorization' : localStorage.getItem('user')
     })
     let options = {headers}
-return this.http.put(`${URL_API}/cliente/${cliente.id}`,(cliente),options,).pipe(map((response:any)=>{
-        console.log(response)
-        return response;
-}))
+return this.http.put(`${URL_API}/cliente/${cliente.id}`,(cliente),options).pipe(map((response:any)=>{
+    return response;
+})).pipe(retryWhen((errors : any)=> {
+    return errors.pipe(delay(10), take(10))}
+   ))
 }
 }
