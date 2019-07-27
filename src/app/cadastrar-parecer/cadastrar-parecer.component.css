@@ -1,0 +1,17 @@
+.centro{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+select.form-control.selects{
+    background-color: rgb(223, 255, 204)
+}
+button.btn.btn-primary.mb-2{
+    background-color: rgb(9, 28, 46);
+    margin: 0 auto;
+}
+p{
+    text-align: center;
+}
+textarea.form-control{
+    background-color: rgb(253, 246, 213);
+}

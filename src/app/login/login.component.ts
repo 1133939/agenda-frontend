@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Usuario } from '../model/usuario.model';
 import { debounceTime, retry, timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ import { debounceTime, retry, timeout, catchError } from 'rxjs/operators';
   providers:[UsuarioService]
 })
 export class LoginComponent implements OnInit {
+  public error : HttpErrorResponse;
   public formLogin : FormGroup = new FormGroup({
     'email' : new FormControl(null, [Validators.required]),
     'senha' : new FormControl(null, [Validators.required])
@@ -37,13 +40,15 @@ export class LoginComponent implements OnInit {
 
   }
   login() :void{
+    if(this.formLogin.valid){
     let usuario : Credenciais = new Credenciais (this.formLogin.value.email, this.formLogin.value.senha)
     this.usuarioService.auth(usuario).subscribe((response:any)=>{
       this.token = response.headers.get('Authorization')
       localStorage.setItem('user',this.token);
       this.router.navigate([''])
-    },error=>{})
+    },error=>{this.error = error})
 
-    
+          
+  }
   }
 }

@@ -1,25 +1,26 @@
 <app-topo></app-topo>
-<div *ngIf="cliente != undefined && parecer != undefined">
-<p>
-{{cliente.nome}}
+<div *ngIf="parecer != undefined">
+<p class="nome">
+{{parecer.cliente.nome}}
 </p>
-<p>
+<p class="titulo">
 {{parecer.titulo}}
 </p>
-<p>
+<p class="data">
 {{parecer.data | date: 'dd/MM/yyyy'}}
 </p>
-<p>
+<p class="descricao">
 {{parecer.descricao}}
 </p>
-
-<button type="button" class="btn btn-success"  data-toggle="modal" data-target="#modalAlterar">Alterar</button>
+<div class="d-flex justify-content-center">
+<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modalAlterar">Alterar</button>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#excluirRelatorio" (click)="excluirOptions()">
-  <span class="glyphicon glyphicon-trash">Excluir</span>
+  Excluir
 </button>
 <button type="button" class="btn btn-success"(click)="downloadPDF()">
-  Download Relatório
+  Download
 </button>
+</div>
 
 
 <!-- Modal -->
@@ -27,6 +28,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+          <h5 class="modal-title">Mensagem</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -40,15 +42,21 @@
           <button type="button" class="btn btn-primary" (click)="excluirParecer()">Sim, excluir</button>
         </div>
       </div>
-      <div *ngIf="excluido == 1">
+      <div *ngIf="response != undefined && response.status == 204;">
         <div class="modal-body">
-          Relatório excluído com sucesso
+          Relatório excluído com sucesso.
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="/">Ok</button>
+          </div>
       </div>
       <div *ngIf="excluido == 2">
         <div class="modal-body">
           Houve problemas ao excluir este relatório, tente de novo mais tarde.
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+          </div>
       </div>
     </div>
   </div>
@@ -71,13 +79,16 @@
            <div class="form-group">
              <label for="titulo">Título </label>
              <input type="text" class="form-control" autocomplete=off  value={{parecer.titulo}} formControlName="titulo">
+             <small class="form-text text-danger" *ngIf="formUpdateParecer.get('titulo').invalid && formUpdateParecer.get('titulo').touched">
+                Título máximo 60 caracteres.
+               </small> 
             </div> 
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Descrição do Cliente</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" value={{parecer.descricao}}  formControlName="descricao"></textarea>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success">Alterar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalMensagemAlteracao">Confirmar alteração</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
           </form> 
@@ -86,5 +97,29 @@
     </div>
   </div>
 </div>
+  
+  <!-- Modal  ALTERACAO MENSAGEM-->
+  <div class="modal fade" id="modalMensagemAlteracao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div *ngIf="response !=undefined && response.status == 204;else updateRelatorioErro">
+            <div class="modal-body">
+                <p class="text-success">Relatório alterado com sucesso.</p>
+            </div>
+          </div>
+          <ng-template #updateRelatorioErro>
+              <div class="modal-body">
+                 <p class="text-danger">Relatório não foi atualizado.</p>
+                </div>
+          </ng-template>
+      </div>
+    </div>
+  </div>
   
   

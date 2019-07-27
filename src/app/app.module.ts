@@ -16,6 +16,8 @@ import { ROUTES } from './app.routes';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from 'src/interceptors/error-interceptor';
+import { EsqueciSenhaComponent } from './esqueci-senha/esqueci-senha.component';
+import { UpdateUsuarioComponent } from './update-usuario/update-usuario.component';
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
@@ -28,7 +30,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     CadastrarClienteComponent,
     ClienteComponent,
     ParecerClienteComponent,
-    CadastrarUsuarioComponent
+    CadastrarUsuarioComponent,
+    EsqueciSenhaComponent,
+    UpdateUsuarioComponent
   ],
   imports: [
     BrowserModule,
@@ -38,11 +42,13 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     RouterModule.forRoot(ROUTES),
     NgxMaskModule.forRoot(options)
   ],
-  providers: [{
+  providers: [
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,
     multi: true
-  }],
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

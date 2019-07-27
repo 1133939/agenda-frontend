@@ -21,6 +21,9 @@ export class ClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario = new Usuario(null,null,null,null,null)
   public email:string
+  public pageObj : any;
+  public page : number = 0;
+  public response : any;
   public transferiu : boolean = false;
   public cliente : Cliente
   public usuarioTransferir : Usuario;
@@ -53,9 +56,13 @@ export class ClienteComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('user')== null){
       this.router.navigate(['/login'])
-    }else{
-  
-    }
+    }else
+    if(localStorage.getItem('user')!= null){
+      if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
+        localStorage.removeItem('user')
+        this.router.navigate(['/login'])
+      }
+    else{
     this.email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
     this.usuarioService.getUsuarioByEmail(this.email).subscribe((response:any)=>{
       this.usuario = response;
@@ -64,11 +71,14 @@ export class ClienteComponent implements OnInit {
       })
     })
   }
+}
+}
   buscandoCliente(param : number){
     for(var aux of this.usuario.clientes){
       if(aux.id == param){
         this.clienteService.getClienteById(aux.id).subscribe((response:any)=>{
            this.cliente=response;
+           this.getPagePareceres();
         })
         this.parecerService.getParecerByIdCliente(aux.id).subscribe((response:any)=>{
           this.pareceres = response;
@@ -77,9 +87,10 @@ export class ClienteComponent implements OnInit {
     }
   }
   addDescricao(){
+    this.response = undefined;
     let cliente : ClienteDTO = new ClienteDTO(this.cliente.id,null,null,null,this.formUpdate.get('descricao').value,null,null,null)
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
-    console.log(response)
+      this.response = response;
     })
   }
   buscarPorData(){
@@ -105,8 +116,7 @@ export class ClienteComponent implements OnInit {
       })
     }
     updateCliente(){
-      
-      console.log("ASDAKLSDJLAS")
+    this.response = undefined;
     let cliente : ClienteDTO = new ClienteDTO(this.cliente.id,null,null,null,null,null,null,null);
     if(this.formUpdateCliente.get('nome').value !=null && this.formUpdateCliente.get('nome').value !=""){
       cliente.nome=this.formUpdateCliente.get('nome').value
@@ -127,6 +137,8 @@ export class ClienteComponent implements OnInit {
         cliente.endereco =  this.formUpdateCliente.get('endereco').value
       }
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
+      console.log(response.status)
+      this.response = response;
       this.buscandoCliente(this.cliente.id);
 
     })
@@ -134,7 +146,7 @@ export class ClienteComponent implements OnInit {
   }
   transferirCliente(){
     this.usuarioTransferir=null;
-this.usuarioService.getUsuarioByEmail(this.formTransferir.get('email').value).subscribe((response:any)=>{
+this.usuarioService.getUsuarioByEmailReduzido(this.formTransferir.get('email').value).subscribe((response:any)=>{
   this.usuarioTransferir = response;
 })
   }
@@ -167,5 +179,26 @@ cliente.status=1;
       this.buscandoCliente(this.cliente.id);
       return response;
     })
+  }
+
+  getPagePareceres(page : number = 0, linesPerPage : number = 10){
+    this.parecerService.findParecerByUsuarioPage(this.cliente.id,page,linesPerPage).subscribe((response:any)=>{
+     console.log(response);
+      this.pageObj = response;
+    })
+  }
+  pageSeguinte(){
+  this.page++;
+  this.getPagePareceres(this.page);
+  }
+  pageAnterior(){
+    if(this.page>0){
+      this.page--;
+      this.getPagePareceres(this.page);
+    }
+  }
+  setPagina(page : number){
+  this.page= page;
+  this.getPagePareceres(this.page);
   }
 }

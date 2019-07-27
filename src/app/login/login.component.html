@@ -1,4 +1,4 @@
-  
+
 <div class="centro">
   <div class="tamanho">
   <form [formGroup]="formLogin" (ngSubmit)="login()">
@@ -8,9 +8,13 @@
 
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Email" formControlName="email">
         <input type="password" class="form-control" id="senha" placeholder="Senha" formControlName="senha" autocomplete="off">
+
+        <small class="form-text text-danger" *ngIf="error!= undefined && error.status == 401">
+            Usuário ou senha incorretos
+          </small>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-  
   <button class="btn btn-lg btn-secondary btn-block" type="button" routerLink="/cadastrar_usuario">Cadastrar</button>
+  <button class="btn btn-sm btn-info btn-block" type="button" routerLink="/esqueci_senha">Esqueci minha senha</button>
   <p class="mt-5 mb-3 text-muted">© 2019</p>
 </form>
 </div>

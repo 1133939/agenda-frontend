@@ -5,10 +5,28 @@
 }
 p.negrito{
     font-weight: bold;
+    font-style: italic;
+}
+p.negrito-relatorio{
+    margin-top:6%;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:larger;
+    text-align: center;
+}
+p.mensagem{
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 a.direita{
     position:relative;
-    right: -100px;
+    float:left;
+    margin-left:2%;
+    margin-bottom: 2%;
+    color:rgb(78, 113, 170);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size:large;
 }
 a.direita:hover{
     color: gray;
@@ -29,15 +47,53 @@ a.direita:hover{
 }
 .divdireita{
     position:relative;
-    float:right;
+    float:left;
+    margin:auto;
+    margin-top: 2%;
+    margin-left: 2%;
     margin-right: 2%;
-    width: 45%;
-    background-color: white;
+    margin-bottom: 2%;
 }
 .divesquerda{
     position:relative;
     float:left;
-    margin-left: 2%;
-    width: 45%;
+    margin-left:2%;
+    margin-top: 2%;
+    width: 40%;
     background-color: white;
+}
+label.direita{
+    width: 49%;
+float:left;
+margin-top:2%;
+}
+textarea.form-control.direita{
+    float:left;
+    width: 49%;
+    margin-top:2%;
+    background-color: rgb(255, 254, 238);
+    }
+button.btn.btn-primary{
+    margin-top:2%;
+    background-color: rgb(11, 11, 49);
+    border-color: black;
+}
+button.btn.btn-primary.btn-md{
+    float:left;
+    margin-left: 1%;
+    background-color: rgb(7, 124, 160);
+    border-color: black;
+    
+}
+div.centro-buttons{
+    margin-left: 2%;
+    width: 40%;
+    margin: 0 auto;
+}
+tr.blue{
+    background-color: rgb(31, 25, 66);
+    color:rgb(216, 216, 216);
+}
+table.table.table-hover tr.itens:hover{
+    background-color: rgb(183, 209, 248);
 }

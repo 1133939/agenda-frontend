@@ -1,0 +1,32 @@
+p.nome{
+ margin-left:2%;
+ margin-top:2%;
+ font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+ font-size: larger;   
+}
+p.titulo{
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;   
+   }
+   p.data{
+    text-align: center;
+    margin-left:2%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: medium;   
+   }
+   p.descricao{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+    text-align: center;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size:medium;   
+   }
+   button.btn{
+       margin-left:1%;
+       margin-bottom: 2%;
+   }
+   button.btn.btn-primary{
+       background-color: rgb(18, 19, 44)
+   }

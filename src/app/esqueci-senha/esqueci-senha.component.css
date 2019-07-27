@@ -1,0 +1,32 @@
+.tamanho{
+    position:relative;
+    background-color: white;
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;
+}
+a.direita{
+    position:relative;
+    right: -100px;
+}
+a.direita:hover{
+    color: gray;
+
+}
+.centro{
+margin-left: auto;
+margin-right: auto;
+    width: 100%;
+    
+}
+h1{
+    text-align: center;
+    color:#72929a;
+    text-shadow: 1px 1px rgb(68, 67, 67);
+}
+h2,h3,h4,h5{
+    text-align: center;
+}
+p{
+    text-align: center;
+}

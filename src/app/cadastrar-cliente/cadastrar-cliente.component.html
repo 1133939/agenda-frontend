@@ -1,7 +1,9 @@
 <app-topo></app-topo>
 <div class="centro">
     <div class="tamanho">
-      <h3>Cadastrar Cliente</h3>
+      
+      <img class="d-block mx-auto mb-4" src="../../assets/cadastro_img.png" alt="" width="150" height="150" >
+      <p>Aqui você cadastra seu cliente, caso não saiba todos seus dados não se preocupe, você pode alterar depois.</p>
       <form [formGroup]="form" (ngSubmit)="cadastrarCliente()">
       <div class="form-group">
             <label for="exampleInputEmail1">Nome</label>
@@ -16,7 +18,7 @@
                   </small> 
             <label for="exampleInputEmail1">Telefone</label>
             <input type="text" class="form-control" placeholder="" autocomplete=off formControlName="telefone" mask="(00)00000-0009">
-            <small class="form-text text-danger" *ngIf="form.get('endereco').invalid && form.get('endereco').touched">
+            <small class="form-text text-danger" *ngIf="form.get('telefone').invalid && form.get('telefone').touched">
                 Digite um telefone, caso não saiba, bote um qualquer e altere depois EX: (61)98765-1234 ou telefone fixo (61)33645-333.
               </small>
             <label for="exampleInputEmail1">Endereço</label>
@@ -25,7 +27,31 @@
           Digite um endereço, caso não saiba, bote um qualquer e altere depois.
         </small> 
           </div>
-          <button type="submit" class="btn btn-primary">Cadastrar</button>
+          <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modalCadastro">Cadastrar</button>
         </form>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="modalCadastro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+         <div *ngIf="response != undefined && response.status==201;else erroCadastrar">    
+        <div class="modal-body">
+          Cliente cadastrado com sucesso!
+        </div>
+      </div>
+      <ng-template #erroCadastrar>
+          <div class="modal-body">
+              Cliente não cadastrado...
+            </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

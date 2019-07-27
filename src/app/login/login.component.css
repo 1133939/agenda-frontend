@@ -30,3 +30,7 @@ h2,h3,h4,h5{
 p{
     text-align: center;
 }
+button.btn.btn-primary{
+    background-color: rgb(11, 11, 39);
+    border-color: white;
+}

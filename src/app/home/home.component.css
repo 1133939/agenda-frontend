@@ -8,3 +8,21 @@ p{
 margin:auto;
 width: 60%;
 }
+ul.pagination{
+margin:auto;
+}
+tr.blue{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(137, 189, 189);
+}
+tr.itens{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:rgb(197, 197, 197);
+    background-color: rgb(9, 28, 46);
+}
+table.table.table-hover tr.itens:hover{
+    background-color: rgb(138, 170, 219);
+}
+img.d-block.mx-auto.mb-4{
+    margin-top:2%
+}

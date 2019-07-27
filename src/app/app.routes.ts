@@ -6,6 +6,8 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { ParecerClienteComponent } from './parecer-cliente/parecer-cliente.component';
 import { LoginComponent } from './login/login.component';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
+import { EsqueciSenhaComponent } from './esqueci-senha/esqueci-senha.component';
+import { UpdateUsuarioComponent } from './update-usuario/update-usuario.component';
 
 export const ROUTES : Routes = [
     {path: '', component: HomeComponent},   
@@ -15,5 +17,7 @@ export const ROUTES : Routes = [
     {path: 'relatorio_cliente/:id', component: ParecerClienteComponent}, 
     {path: 'cadastrar_usuario', component: CadastrarUsuarioComponent}, 
     {path: 'login', component: LoginComponent}, 
+    {path: 'esqueci_senha', component: EsqueciSenhaComponent},
+    {path: 'atualizar', component: UpdateUsuarioComponent}, 
 ]
 

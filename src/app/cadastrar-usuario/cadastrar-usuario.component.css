@@ -21,3 +21,6 @@ h1{
     text-shadow: 1px 1px rgb(68, 67, 67);
     
 }
+button.btn.btn-primary{
+    background-color: rgb(10, 10, 31)
+}

@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" routerLink="/">Sua Clínica</a>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" routerLink="/">Clínica Online</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,14 +12,17 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" routerLink="/">Listar Clientes</a>
-            <a class="dropdown-item" routerLink="/cadastrar_cliente">Novo Cliente</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/atualizar">Atualizar</a>
             <a class="dropdown-item" (click)="logout()">Sair</a>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/cadastrar_relatorio">Cadastrar Relatório</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/cadastrar_cliente">Novo Cliente</a>
+          </li>
       </ul>
       <div class="col-md-6">
           
@@ -28,10 +31,11 @@
 
         <ul class="list-group" style="position: absolute; z-index:999">
           <li class="list-group-item" *ngFor="let cliente of clientes | async">
-            <a [routerLink] ="['/cliente',cliente.id]" (click)="limpaPesquisa()">
+            <a class="lista-clientes" [routerLink] ="['/cliente',cliente.id]" (click)="limpaPesquisa()">
             {{cliente.nome | uppercase}}
             </a></li>
         </ul>
       </div>
     </div>
   </nav>
+  

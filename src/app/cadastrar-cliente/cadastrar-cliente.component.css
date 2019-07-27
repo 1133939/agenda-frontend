@@ -16,3 +16,13 @@ a.direita:hover{
     margin-right: auto;
     width: 300px;
 }
+button.btn.btn-primary.mb-2{
+    background-color: rgb(9, 28, 46);
+    margin: 0 auto;
+}
+p{
+    text-align: center;
+}
+img.d-block.mx-auto.mb-4{
+    margin-top:5%;
+}

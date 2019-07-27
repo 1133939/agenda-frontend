@@ -19,6 +19,7 @@ export class CadastrarParecerComponent implements OnInit {
   public cliente : Cliente = new Cliente(null,null,null,null,null,null,null,null,null)
   public usuario:Usuario;
   public parecerCadastrado : boolean
+  public response : any;
   public clientes : Cliente;
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public form : FormGroup = new FormGroup({
@@ -31,7 +32,13 @@ export class CadastrarParecerComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('user')== null){
       this.router.navigate(['/login'])
-    }else{
+    }else
+    if(localStorage.getItem('user')!= null){
+      if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
+        localStorage.removeItem('user')
+        this.router.navigate(['/login'])
+      }
+    else{
       let email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub;
         this.usuarioService.getUsuarioByEmail(email).subscribe((response:any)=>{
           this.usuario = response;
@@ -42,6 +49,7 @@ export class CadastrarParecerComponent implements OnInit {
 
     }
   }
+}
   cadastrarParecer(){
     this.parecerCadastrado=false;
     if(this.form.valid){
@@ -60,6 +68,8 @@ export class CadastrarParecerComponent implements OnInit {
         this.form.get('descricao').value)
 
         this.parecerService.saveParecer(parecer).subscribe((response:any)=>{
+          console.log(response)
+          this.response=response;
           this.parecerCadastrado=true;
         })
       }else{

@@ -1,27 +1,44 @@
 <app-topo></app-topo>
 <div class="centro">
-<div *ngIf="usuario.clientes !== null">
-  <div *ngIf="usuario.clientes.length==0;else showUsuarios">
-    <p>Você ainda não possui clientes</p>
-  </div>
-  </div>
-  <ng-template #showUsuarios>
+
+  <div *ngIf="pageObj !== undefined">
+  <div *ngIf="pageObj.totalElements == 0; else showClientes">
+      <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="170" height="300" >
+      <p>Você ainda não possui clientes, cadastre um novo cliente em Opções > Novo Cliente</p>
+  </div> 
+  <ng-template #showClientes>
+      <img class="d-block mx-auto mb-4" src="../../assets/doc_paciente_img.png" alt="" width="150" height="150" >
+      <p>Lista de todos seus clientes, ativos e inativos. Clique no cliente para ir ao perfil dele</p>
 <table class="table table-hover">
     <thead>
-      <tr class="bg-info">
+      <tr class="blue">
         <th scope="col">Nome</th>
         <th scope="col">Telefone</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let cliente of usuario.clientes" [routerLink]="['/cliente', cliente.id]" >
+      <tr class="itens" *ngFor="let cliente of pageObj.content" [routerLink]="['/cliente', cliente.id]" >
         <td scope="row">{{cliente.nome}}</td>
         <td>{{cliente.telefone | mask : '(00)90000-0000'}}</td>
-        <td *ngIf="cliente.status==1">ATIVO</td>
-        <td *ngIf="cliente.status==2">INATIVO</td>
+        <td *ngIf="cliente.status==1">Ativo</td>
+        <td *ngIf="cliente.status==2">Inativo</td>
       </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-center">
+  <nav>
+<ul class="pagination">
+  <li class="page-item"><a class="page-link" (click)="pageAnterior()" *ngIf="page!=0">Anterior</a></li>
+
+  <li class="page-item"><a class="page-link" (click)="setPagina(page)" *ngIf="pageObj.totalPages>page">{{page+1}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPagina(page+1)" *ngIf="pageObj.totalPages>page+1">{{page+2}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPagina(page+2)" *ngIf="pageObj.totalPages>page+2">{{page+3}}</a></li>
+
+  <li class="page-item"><a class="page-link" (click)="pageSeguinte()" *ngIf="pageObj.totalPages > page+1">Próximo</a></li>
+</ul>
+</nav>
+</div>
 </ng-template>
+</div>
 </div>

@@ -1,24 +1,26 @@
 <app-topo></app-topo>
+<div *ngIf="cliente !=undefined;else clienteNaoExiste">
 <div class="divesquerda">
-    <div *ngIf="cliente !=undefined;else clienteNaoExiste">
     <p class="negrito">{{cliente.nome}}</p>
     <p>Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
     <p>Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
-    <p>Endereço: {{cliente.endereco}}</p>      
+    <p>Endereço: {{cliente.endereco}}</p>
+    <br>
+        <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
+  </div>      
     <form [formGroup]="formUpdate" (ngSubmit)="addDescricao()">
       <div class="form-group">
-        <label for="exampleFormControlTextarea1">Descrição do Cliente</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" value="{{cliente.descricao}}" formControlName="descricao"></textarea>
+        <label class="direita" for="exampleFormControlTextarea1">Descrição do Cliente</label>
+        <textarea class="form-control direita" id="exampleFormControlTextarea1" rows="4" value="{{cliente.descricao}}" formControlName="descricao"></textarea>
+        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalSalvarDescricao">Salvar Descrição</button>
       </div>
-      <button type="submit" class="btn btn-primary">Salvar</button>
-      <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
     </form>
-    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir Cliente</button>
-    <br>
-  </div>
 </div>
 <ng-template #clienteNaoExiste>
-  <p>Este cliente não existe</p>
+    <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="180" height="330" >
+    <p class="mensagem">Este cliente não existe.</p> <br>
+
+
 </ng-template>
 
   
@@ -41,7 +43,7 @@
               <label for="exampleInputEmail1">Transferir para: </label>
               <input type="text" class="form-control" placeholder="nomeDaPessoa@email.com" autocomplete=off formControlName="email">
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Transferir</button>
+                <button type="submit" class="btn btn-info">Transferir</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
               </div>
              </div>
@@ -120,7 +122,7 @@
         </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+          <button type="submit" class="btn btn-info" data-target="#modalMensagemAlteracao" data-toggle="modal">Salvar mudanças</button>
         </div>
       </form> 
       </div>
@@ -132,7 +134,13 @@
 
 <div *ngIf="cliente !=undefined">
   <div class="divdireita">
-    <p class="negrito">Relatórios</p>
+      <div *ngIf="pageObj != undefined">
+          <div *ngIf="pageObj.totalElements == 0; else showPareceres">
+              <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="120" height="200" >
+              <p class="mensagem">Este cliente ainda não possui relatórios, cadastre um novo em Cadastrar Relatório</p> <br>
+          </div>
+        <ng-template #showPareceres>
+    <p class="negrito-relatorio">Relatórios</p>
       <!-- <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
         <label for="exampleInputEmail1">Data inicial</label>
         <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
@@ -142,30 +150,52 @@
       </form> -->
 <table class="table table-hover">
     <thead>
-      <tr>
+      <tr class="blue">
         <th scope="col">Título</th>
         <th scope="col">Data</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let parecer of pareceres"[routerLink]="['/relatorio_cliente', parecer.id]">
+      <tr class="itens" *ngFor="let parecer of pageObj.content"[routerLink]="['/relatorio_cliente', parecer.id]">
         <td scope="row">{{parecer.titulo}}</td>
         <td>{{parecer.data | date: 'dd/MM/yyyy'}}</td>
       </tr>
     </tbody>
   </table>
-<!-- Botão para acionar modal -->
-<div *ngIf="cliente.status=='1';else clienteInativo">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('inativo')">
+
+  <div class="d-flex justify-content-center">
+      <nav>
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" (click)="pageAnterior()" *ngIf="page!=0">Anterior</a></li>
+    
+      <li class="page-item"><a class="page-link" (click)="setPagina(page)" *ngIf="pageObj.totalPages>page">{{page+1}}</a></li>
+      <li class="page-item"><a class="page-link"  (click)="setPagina(page+1)" *ngIf="pageObj.totalPages>page+1">{{page+2}}</a></li>
+      <li class="page-item"><a class="page-link"  (click)="setPagina(page+2)" *ngIf="pageObj.totalPages>page+2">{{page+3}}</a></li>
+    
+      <li class="page-item"><a class="page-link" (click)="pageSeguinte()" *ngIf="pageObj.totalPages > page+1">Próximo</a></li>
+    </ul>
+    </nav>
+    </div>
+  </ng-template>
+</div>
+<!-- Botão para acionar modal ATIVAR DESATIVAR -->
+<p class="mensagem">Desativar um cliente serve para taxar o cliente como um cliente que não está fazendo consultas por algum tempo.</p>
+<div class="d-flex justify-content-center">
+<button *ngIf="cliente.status=='1';else clienteInativo" type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('inativo')">
    Desativar
   </button>
-</div>
 <ng-template #clienteInativo>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('ativo')">
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('ativo')">
         Ativar
        </button>
 </ng-template>
-  <!-- Modal -->
+<button type="button" class="btn btn-primary btn-md"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir</button>
+</div>
+</div>
+</div>
+
+
+  <!-- Modal Mensagem Status -->
   <div class="modal fade" id="mudarStatusCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -185,9 +215,54 @@
     </div>
   </div>
 
-</div>
-</div>
 
 
+<!-- Modal SALVAR DESCRICAO -->
+<div class="modal fade" id="modalSalvarDescricao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div *ngIf="response !=undefined && response.status == 204;else updateDescricaoErro">
+        <div class="modal-body">
+            <p class="text-success">Descrição atualizada com sucesso.</p>
+        </div>
+      </div>
+      <ng-template #updateDescricaoErro>
+          <div class="modal-body">
+             <p class="text-danger">Descrição não foi atualizada.</p>
+            </div>
+      </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal ALTERAR -->
+<div class="modal fade" id="modalMensagemAlteracao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div *ngIf="response !=undefined && response.status == 204;else updateClienteErro">
+        <div class="modal-body">
+            <p class="text-success">Cliente atualizado com sucesso.</p>
+        </div>
+      </div>
+      <ng-template #updateClienteErro>
+          <div class="modal-body">
+             <p class="text-danger">Cliente não foi atualizado.</p>
+            </div>
+      </ng-template>
+      </div>
+    </div>
+  </div>
     
     

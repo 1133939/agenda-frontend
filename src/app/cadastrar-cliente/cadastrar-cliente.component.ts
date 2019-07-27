@@ -6,6 +6,7 @@ import { Cliente } from '../model/cliente.model';
 import { UsuarioService } from '../service/usuario.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Usuario } from '../model/usuario.model';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastrar-cliente',
@@ -16,6 +17,8 @@ import { Usuario } from '../model/usuario.model';
 export class CadastrarClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario;
+  public response : HttpResponse<any>;
+  private monthVariableToJava : number = -1;
 public form : FormGroup = new FormGroup({
   'nome' : new FormControl(null,[Validators.required]),
   'nascimento' : new FormControl(null,[Validators.required, Validators.minLength(8)]),
@@ -27,14 +30,24 @@ public form : FormGroup = new FormGroup({
   ngOnInit() {
     if(localStorage.getItem('user')== null){
       this.router.navigate(['/login'])
-    }else{
-      let email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub;
-      this.usuarioService.getUsuarioByEmail(email).subscribe((response:any)=>{
-        this.usuario = response;
-  })
-}
+    }else
+    if(localStorage.getItem('user')!= null){
+      if(this.jwtHelperService.isTokenExpired(localStorage.getItem('user').substr(7))){
+        localStorage.removeItem('user')
+        this.router.navigate(['/login'])
+      }
+      else{
+       let email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
+        this.usuarioService.getUsuarioByEmail(email).subscribe((response:any)=>{
+          this.usuario = response;
+     
+        })
+      }
+   
   }
+}
   cadastrarCliente(){
+    this.response = undefined;
     this.form.get('nome').markAsTouched();
     this.form.get('nascimento').markAsTouched();
     this.form.get('telefone').markAsTouched();
@@ -44,7 +57,7 @@ public form : FormGroup = new FormGroup({
       let data_string : string
       let data_nascimento : Date = new Date() 
       data_string = this.form.get('nascimento').value
-      data_nascimento.setFullYear(+data_string.substr(4,4), +data_string.substr(2,2),+data_string.substr(0,2));
+      data_nascimento.setFullYear(+data_string.substr(4,4), +data_string.substr(2,2)+this.monthVariableToJava,+data_string.substr(0,2));
       let cliente : Cliente = new Cliente(
         null,
         this.form.get('nome').value,
@@ -60,7 +73,9 @@ public form : FormGroup = new FormGroup({
             this.form.get('nome').markAsPending();
           }else{
             this.clienteService.cadastrarCliente(cliente).subscribe((response:any)=>{
-              console.log(response)
+              this.response=response;
+            },(error:any)=>{
+              console.log(error)
             })
           }
         })

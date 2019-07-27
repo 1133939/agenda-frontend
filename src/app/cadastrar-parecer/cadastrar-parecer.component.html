@@ -1,9 +1,18 @@
 <app-topo></app-topo>
-
+<div class="centro">
+  <div *ngIf="clientes !=undefined">
+    <div *ngIf="clientes.length == 0; else showClientes">
+        <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="170" height="300" >
+        <p>Você ainda não possui clientes, cadastre um novo cliente em <br> Opções > Novo Cliente <br> para poder cadastrar seus respectivos relatórios</p>
+    </div>
+    <ng-template #showClientes>
+    <img class="d-block mx-auto mb-4" src="../../assets/bloco-de-notas_img.jpg" alt="" width="330" height="200" >
+  <p>Aqui você pode cadastrar um relatório para seu paciente, basta selecionar o paciente! <br> 
+      Caso não apareça o cliente que você quer cadastrar um relatório, verifique se ele está "Inativo", vá no perfil dele para ativá-lo.</p>
 <form [formGroup]="form" (ngSubmit)="cadastrarParecer()">
     <div class="form-group">
       <label for="exampleFormControlSelect1">Selecionar Cliente</label>
-      <select class="form-control" id="exampleFormControlSelect1" formControlName="cliente">
+      <select class="form-control selects" id="exampleFormControlSelect1" formControlName="cliente">
         <option>Selecione...</option>
         <option *ngFor="let cliente of clientes">{{cliente.nome}}</option>
       </select>
@@ -16,7 +25,7 @@
         <input type="text" class="form-control" placeholder="" formControlName="titulo">
       </div>
       <small class="form-text text-danger" *ngIf="form.get('titulo').invalid && form.get('titulo').touched">
-          Título mínimo de 2 caracteres.
+          Título mínimo de 2 caracteres e máximo de 60.
         </small> 
 
     <div class="form-group">
@@ -26,8 +35,8 @@
     <small class="form-text text-danger" *ngIf="form.get('descricao').invalid && form.get('descricao').touched">
         Descrição mínima de 10 caracteres.
       </small> 
-    <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#cadastroMensagem">Cadastrar Relatório</button>
-  </form>
+      <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#cadastroMensagem">Cadastrar Relatório</button>
+    </form>
   
   <!-- Modal -->
   <div class="modal fade" id="cadastroMensagem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,7 +48,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div *ngIf="parecerCadastrado">
+        <div *ngIf="response !=null && response.status == 201; else parecerErroCadastro">
           <div class="modal-body">
             Relatório cadastrado.
           </div>
@@ -47,14 +56,18 @@
               <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="['/cliente',cliente.id]">Ok</button>
             </div>
         </div>
-          <div *ngIf="!parecerCadastrado">
+          <ng-template #parecerErroCadastro>
               <div class="modal-body">
             Houve problemas ao cadastrar, tente de novo.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
-              </div>
-          </div>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+            </div>
+          </ng-template>
+          
       </div>
     </div>
   </div>
+</ng-template>
+</div>
+</div>
