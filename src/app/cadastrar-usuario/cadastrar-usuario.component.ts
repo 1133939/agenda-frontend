@@ -12,7 +12,9 @@ import { Usuario } from '../model/usuario.model';
 })
 export class CadastrarUsuarioComponent implements OnInit {
   public usuarioCadastrado : boolean;
+  public response : any;
  public formUsuario : FormGroup = new FormGroup({
+  'crp': new FormControl(null),
   'nome': new FormControl(null,[Validators.required, Validators.minLength(3), Validators.maxLength(90)]),
   'email': new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(100) , Validators.email]),
   'senha' : new FormControl(null, [Validators.required,Validators.minLength(6), Validators.maxLength(30)]),
@@ -33,19 +35,24 @@ export class CadastrarUsuarioComponent implements OnInit {
     this.formUsuario.get('senha').setValue(senha)
   }
   cadastrarUsuario(){
-    this.usuarioCadastrado = false;
+    this.response=undefined;
+    let response : any = {};
+    response.status = 800;
+    this.response=response;
+    console.log(this.response)
     if(this.formUsuario.valid){
-
       this.usuarioService.getUsuarioByEmailReduzido(this.formUsuario.get('email').value).subscribe((response:any)=>{
         if(response.email == null){
           let usuario : Usuario = new Usuario
           (null,
+            this.formUsuario.get('crp').value,
             this.formUsuario.get('nome').value,
             this.formUsuario.get('email').value,
             this.formUsuario.get('senha').value, 
             null)
            this.usuarioService.cadastrarUsuario(usuario).subscribe((response:any)=>{
-            this.usuarioCadastrado = true;
+             console.log(response)
+            this.response=response;
             })
           }else{
             this.formUsuario.get('email').markAsPending()

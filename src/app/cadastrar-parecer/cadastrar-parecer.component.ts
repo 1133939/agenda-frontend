@@ -68,7 +68,6 @@ export class CadastrarParecerComponent implements OnInit {
         this.form.get('descricao').value)
 
         this.parecerService.saveParecer(parecer).subscribe((response:any)=>{
-          console.log(response)
           this.response=response;
           this.parecerCadastrado=true;
         })

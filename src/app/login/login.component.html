@@ -15,7 +15,14 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
   <button class="btn btn-lg btn-secondary btn-block" type="button" routerLink="/cadastrar_usuario">Cadastrar</button>
   <button class="btn btn-sm btn-info btn-block" type="button" routerLink="/esqueci_senha">Esqueci minha senha</button>
-  <p class="mt-5 mb-3 text-muted">© 2019</p>
+   <button class="btn btn-sm btn-success btn-block" type="button" (click)="testarConexao()">Verificar iniciação do sistema</button>
+   <small class="form-text text-warning" *ngIf="response != undefined && response.status == 800">
+  Aguardando resposta do sistema...  </small>   
+  <small class="form-text text-warning" *ngIf="error!= undefined && error.status == 0">
+   Sistema iniciando...  </small>     
+  <small class="form-text text-success" *ngIf="response!= undefined && response.status == 200">
+    O sistema já está em funcionamento. </small>    
+   <p class="mt-5 mb-3 text-muted">© 2019</p>
 </form>
 </div>
 </div>

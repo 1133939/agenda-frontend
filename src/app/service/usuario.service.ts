@@ -50,7 +50,14 @@ return this.http.get(`${URL_API}/cliente/usuario/${id}`,options).pipe(map((respo
 }))
  }
  cadastrarUsuario(usuario : Usuario) : Observable<any>{
-return this.http.post(`${URL_API}/usuario`,(usuario)).pipe(map((response:any)=>{
+    let headers = new HttpHeaders({
+        'Content-Type' : 'application/json',
+    })
+return this.http.post(`${URL_API}/usuario`,(usuario),{
+    observe: 'response',
+    responseType: 'text',
+    headers
+}).pipe(map((response:any)=>{
     return response;
 })).pipe(retryWhen((errors : any)=> {
     return errors.pipe(delay(10), take(10))}
@@ -66,7 +73,6 @@ return this.http.put(`${URL_API}/usuario/${id}`,(usuario),{
     responseType: 'text',
     headers
 }).pipe(map((response:any)=>{
-        console.log(response)
         return response;
 })).pipe(retryWhen((errors : any)=> {
     return errors.pipe(delay(10), take(1))}
@@ -79,10 +85,22 @@ return this.http.put(`${URL_API}/usuario/${id}`,(usuario),{
     })
     let options = {headers}
 return this.http.put(`${URL_API}/usuario/${id}`,(usuario),options).pipe(map((response:any)=>{
-        console.log(response)
         return response;
 })).pipe(retryWhen((errors : any)=> {
     return errors.pipe(delay(10), take(10))}
    ))
+ }
+ testarConexao(email: string){
+    let headers = new HttpHeaders({
+        'Content-Type' : 'application/json',
+    })
+    return this.http.get(`${URL_API}/usuario/email_reduzido/${email}`,{
+        observe: 'response',
+        responseType: 'text',
+        headers
+    })
+    .pipe(map((response:any)=>{
+        return response;
+    }))
  }
 }

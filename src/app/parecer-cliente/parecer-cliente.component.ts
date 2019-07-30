@@ -20,7 +20,7 @@ import { ThrowStmt } from '@angular/compiler';
 export class ParecerClienteComponent implements OnInit {
 
   public jwtHelperService : JwtHelperService = new JwtHelperService();
-  public usuario : Usuario = new Usuario(null,null,null,null,null)
+  public usuario : Usuario = new Usuario(null,null,null,null,null,null)
   public blob : Blob;
   public email:string
   public response : any;

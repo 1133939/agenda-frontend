@@ -19,7 +19,7 @@ import { UsuarioDTO } from '../model/usuarioDTO.model';
 })
 export class ClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
-  public usuario : Usuario = new Usuario(null,null,null,null,null)
+  public usuario : Usuario = new Usuario(null,null,null,null,null,null)
   public email:string
   public pageObj : any;
   public page : number = 0;
@@ -32,8 +32,8 @@ export class ClienteComponent implements OnInit {
     'descricao' : new FormControl(null,[Validators.required])
   })
   public formDatas : FormGroup = new FormGroup({
-    'dataInicial' : new FormControl(null,[Validators.required]),
-    'dataFinal' : new FormControl(null,[Validators.required])
+    'dataInicial' : new FormControl(null,[Validators.required, Validators.minLength(10)]),
+    'dataFinal' : new FormControl(null,[Validators.required, Validators.minLength(10)])
   })
   public formUpdateCliente : FormGroup = new FormGroup({
     'nome' : new FormControl(null, [Validators.required]),
@@ -94,26 +94,34 @@ export class ClienteComponent implements OnInit {
     })
   }
   buscarPorData(){
-    let dataInicial : Date = new Date();
-    let dataFinal : Date = new Date();
-
-    dataInicial.setFullYear(
-    +this.formDatas.get('dataInicial').value.substr(4,4), 
-    +this.formDatas.get('dataInicial').value.substr(2,2)-1,
-    +this.formDatas.get('dataInicial').value.substr(0,2));
-
-    dataFinal.setFullYear(
-      +this.formDatas.get('dataFinal').value.substr(4,4), 
-      +this.formDatas.get('dataFinal').value.substr(2,2)-1,
-      +this.formDatas.get('dataFinal').value.substr(0,2));
-
-    this.parecerService.getPareceresBetweenTwoDates(
-      this.cliente.id,
-      dataInicial,
-      dataFinal).subscribe((response:any)=>{
-        console.log(response)
-        this.pareceres = response;
-      })
+    if(this.formDatas.valid){
+      let dataInicial : Date = new Date();
+      let dataFinal : Date = new Date();
+      dataInicial.setHours(0,0,0,0);
+      dataFinal.setHours(23,59,59,59);
+      let ano : number = this.formDatas.get('dataInicial').value.substr(0,4)
+      let mes : number = this.formDatas.get('dataInicial').value.substr(5,2)-1
+      let dia : number = this.formDatas.get('dataInicial').value.substr(8,2)
+      dataInicial.setFullYear(ano,mes,dia)
+      let anoF : number = this.formDatas.get('dataFinal').value.substr(0,4)
+      let mesF : number = this.formDatas.get('dataFinal').value.substr(5,2)-1
+      let diaF : number = this.formDatas.get('dataFinal').value.substr(8,2)
+      dataFinal.setFullYear(anoF,mesF,diaF);
+      
+      this.parecerService.getPareceresBetweenTwoDates(
+        this.cliente.id,
+        dataInicial,
+        dataFinal).subscribe((response:any)=>{
+          this.pageObj = response;
+        })
+      }else{
+        if(this.formDatas.get('dataFinal').invalid){
+          this.formDatas.get('dataFinal').markAsPending();
+        }
+        if(this.formDatas.get('dataInicial').invalid){
+          this.formDatas.get('dataInicial').markAsPending();
+        }
+      }
     }
     updateCliente(){
     this.response = undefined;
@@ -137,7 +145,6 @@ export class ClienteComponent implements OnInit {
         cliente.endereco =  this.formUpdateCliente.get('endereco').value
       }
     this.clienteService.updateCliente(cliente).subscribe((response:any)=>{
-      console.log(response.status)
       this.response = response;
       this.buscandoCliente(this.cliente.id);
 
@@ -151,7 +158,6 @@ this.usuarioService.getUsuarioByEmailReduzido(this.formTransferir.get('email').v
 })
   }
   cancelarTransferencia(){
-    console.log(this.usuarioTransferir)
     this.usuarioTransferir=null;
   }
   confirmarTransferencia(){
@@ -183,7 +189,6 @@ cliente.status=1;
 
   getPagePareceres(page : number = 0, linesPerPage : number = 10){
     this.parecerService.findParecerByUsuarioPage(this.cliente.id,page,linesPerPage).subscribe((response:any)=>{
-     console.log(response);
       this.pageObj = response;
     })
   }

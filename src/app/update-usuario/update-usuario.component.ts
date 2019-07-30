@@ -19,6 +19,7 @@ export class UpdateUsuarioComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public formUsuario : FormGroup = new FormGroup({
    'nome': new FormControl(null,[Validators.minLength(3), Validators.maxLength(60)]),
+   'crp': new FormControl(null,[Validators.minLength(3), Validators.maxLength(8)]),
    'senha' : new FormControl(null, [Validators.minLength(6), Validators.maxLength(30)]),
    'confirmarSenha' : new FormControl(null,[Validators.minLength(6), Validators.maxLength(30)])
   })
@@ -56,6 +57,7 @@ export class UpdateUsuarioComponent implements OnInit {
      if(this.formUsuario.valid){
            let usuario : Usuario = new Usuario
            (this.usuario.id,
+            this.formUsuario.get('crp').value,
              this.formUsuario.get('nome').value,
              null,
              this.formUsuario.get('senha').value, 

@@ -18,6 +18,12 @@
                       Nome inválido
                     </small> 
 
+                    <label for="crp">CRP</label>
+                    <input type="text" class="form-control" autocomplete=off formControlName="crp"> 
+                    <small class="form-text text-danger" *ngIf="formUsuario.get('crp').invalid && formUsuario.get('crp').touched">
+                      Crp inválido: tamanho mínimo 3 e máximo 8
+                    </small> 
+
                     <label for="exampleInputPassword1">Senha</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" 
                     autocomplete="off"  formControlName="senha" #stringSenha (keyup)="setSenha(stringSenha.value)">

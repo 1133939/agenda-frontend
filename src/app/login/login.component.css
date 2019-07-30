@@ -34,3 +34,11 @@ button.btn.btn-primary{
     background-color: rgb(11, 11, 39);
     border-color: white;
 }
+small.form-text.text-success{
+    text-align: center;
+    font-weight: bold;
+}
+small.form-text.text-warning{
+    text-align: center;
+    font-weight: bold;
+}

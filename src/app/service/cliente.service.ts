@@ -73,7 +73,7 @@ return this.http.post(`${URL_API}/cliente`,(cliente),{
 })).pipe(retryWhen((errors : any)=> {
     return errors.pipe(delay(10), take(1))}
    )).pipe(catchError((error:any)=>{
-       console.log(error)
+
        return error;
    }))
 }

@@ -135,19 +135,32 @@
 <div *ngIf="cliente !=undefined">
   <div class="divdireita">
       <div *ngIf="pageObj != undefined">
-          <div *ngIf="pageObj.totalElements == 0; else showPareceres">
-              <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="120" height="200" >
-              <p class="mensagem">Este cliente ainda não possui relatórios, cadastre um novo em Cadastrar Relatório</p> <br>
+          <p class="negrito-relatorio">Relatórios</p>
+          
+          <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
+              <div class="left">
+            <input type="date" class="form-control" autocomplete=off  formControlName="dataInicial">
+            <small class="form-text text-info" *ngIf="formDatas.get('dataInicial').touched && formDatas.get('dataInicial').pending || formDatas.get('dataInicial').invalid && formDatas.get('dataInicial').touched">
+              Insira as datas caso queira buscar. </small>    
+            </div>
+              
+      
+                <div class="left">
+            <input type="date" class="form-control" autocomplete=off  formControlName="dataFinal">
+            <small class="form-text text-info" *ngIf="formDatas.get('dataFinal').touched && formDatas.get('dataFinal').pending  || formDatas.get('dataFinal').invalid && formDatas.get('dataFinal').touched">
+                Insira as datas caso queira buscar. </small>                  
+              </div>
+              
+              <div class="left">
+            <button type="submit" class="btn btn-md btn-secondary btn-block">Buscar entre datas</button>
+          </div>
+          </form>
+       
+
+          <div *ngIf="pageObj.body.totalElements == 0; else showPareceres">
+              <p class="mensagem">Não foram encontrados relatórios</p> <br>
           </div>
         <ng-template #showPareceres>
-    <p class="negrito-relatorio">Relatórios</p>
-      <!-- <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
-        <label for="exampleInputEmail1">Data inicial</label>
-        <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataInicial">
-        <label for="exampleInputEmail1">Data final</label>
-        <input type="text" class="form-control" autocomplete=off mask="00/00/0000" formControlName="dataFinal">
-        <button type="submit" class="btn btn-primary">Buscar</button>
-      </form> -->
 <table class="table table-hover">
     <thead>
       <tr class="blue">
@@ -156,7 +169,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="itens" *ngFor="let parecer of pageObj.content"[routerLink]="['/relatorio_cliente', parecer.id]">
+      <tr class="itens" *ngFor="let parecer of pageObj.body.content"[routerLink]="['/relatorio_cliente', parecer.id]">
         <td scope="row">{{parecer.titulo}}</td>
         <td>{{parecer.data | date: 'dd/MM/yyyy'}}</td>
       </tr>
@@ -168,11 +181,11 @@
     <ul class="pagination">
       <li class="page-item"><a class="page-link" (click)="pageAnterior()" *ngIf="page!=0">Anterior</a></li>
     
-      <li class="page-item"><a class="page-link" (click)="setPagina(page)" *ngIf="pageObj.totalPages>page">{{page+1}}</a></li>
-      <li class="page-item"><a class="page-link"  (click)="setPagina(page+1)" *ngIf="pageObj.totalPages>page+1">{{page+2}}</a></li>
-      <li class="page-item"><a class="page-link"  (click)="setPagina(page+2)" *ngIf="pageObj.totalPages>page+2">{{page+3}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="setPagina(page)" *ngIf="pageObj.body.totalPages>page">{{page+1}}</a></li>
+      <li class="page-item"><a class="page-link"  (click)="setPagina(page+1)" *ngIf="pageObj.body.totalPages>page+1">{{page+2}}</a></li>
+      <li class="page-item"><a class="page-link"  (click)="setPagina(page+2)" *ngIf="pageObj.body.totalPages>page+2">{{page+3}}</a></li>
     
-      <li class="page-item"><a class="page-link" (click)="pageSeguinte()" *ngIf="pageObj.totalPages > page+1">Próximo</a></li>
+      <li class="page-item"><a class="page-link" (click)="pageSeguinte()" *ngIf="pageObj.body.totalPages > page+1">Próximo</a></li>
     </ul>
     </nav>
     </div>

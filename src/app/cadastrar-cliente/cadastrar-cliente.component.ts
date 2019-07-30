@@ -53,7 +53,7 @@ public form : FormGroup = new FormGroup({
     this.form.get('telefone').markAsTouched();
     this.form.get('endereco').markAsTouched();
     if(this.form.valid){
-      let usuario : Usuario = new Usuario (this.usuario.id,null,null,null,null)
+      let usuario : Usuario = new Usuario (this.usuario.id,null,null,null,null,null)
       let data_string : string
       let data_nascimento : Date = new Date() 
       data_string = this.form.get('nascimento').value
@@ -75,7 +75,6 @@ public form : FormGroup = new FormGroup({
             this.clienteService.cadastrarCliente(cliente).subscribe((response:any)=>{
               this.response=response;
             },(error:any)=>{
-              console.log(error)
             })
           }
         })

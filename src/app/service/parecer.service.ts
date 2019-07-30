@@ -22,7 +22,6 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
     responseType: 'json',
     headers
 }).pipe(map((response:any)=>{
-    console.log(response)
     return response;
 }))
  }
@@ -58,8 +57,11 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
             'Content-Type' : 'application/json',
             'Authorization' : localStorage.getItem('user')
         })
-        let options = {headers}
-        return this.http.get(`${URL_API}/parecer/cliente/${id}/datas/${dataInicial}/${dataFinal}`,options)
+        return this.http.get(`${URL_API}/parecer/page/cliente/${id}/datas/${dataInicial}/${dataFinal}`,{
+            observe:'response',
+            responseType: 'json',
+            headers
+        })
         .pipe(map((response:any)=>{
             return response;
         }))
@@ -75,7 +77,6 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
         headers
     })
     .pipe(map((response:any)=>{
-            console.log(response)
             return response;
     })).pipe(retryWhen((errors : any)=> {
         return errors.pipe(delay(10), take(1))}
@@ -92,7 +93,6 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
         headers
     })
     .pipe(map((response:any)=>{
-            console.log(response)
             return response;
     })).pipe(retryWhen((errors : any)=> {
         return errors.pipe(delay(10), take(1))}
@@ -115,8 +115,11 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
                 'Content-Type' : 'application/json',
                 'Authorization' : localStorage.getItem('user')
             })
-            let options = {headers}
-            return this.http.get(`${URL_API}/parecer/page/${id}?page=${page}&linesPerPage=${linesPerPage}`,options)
+            return this.http.get(`${URL_API}/parecer/page/${id}?page=${page}&linesPerPage=${linesPerPage}`,{
+                observe: 'response',
+                responseType: 'json',
+                headers
+            })
             .pipe(retry(10))
             .pipe(map((resposta:any) => resposta))
           }

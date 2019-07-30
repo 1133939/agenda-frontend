@@ -17,7 +17,7 @@ import { UsuarioService } from '../service/usuario.service';
 export class TopoComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public clientes : Observable<Array<Cliente>>
-  public usuario : Usuario = new Usuario(null,null,null,null,null)
+  public usuario : Usuario = new Usuario(null,null,null,null,null,null)
   private subjectPesquisa : Subject<string> = new Subject<string>()
   constructor(private clienteService : ClienteService, private usuarioService : UsuarioService, private router : Router) { }
 
@@ -35,7 +35,6 @@ export class TopoComponent implements OnInit {
         return this.clienteService.pesquisaCliente(termo, this.usuario.id)  //observable de array de ofertas
         
       }),catchError((erro) => {
-        console.log(erro)
         return of<Array<Cliente>>([])
       })
       

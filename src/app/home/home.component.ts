@@ -14,7 +14,7 @@ import { ClienteService } from '../service/cliente.service';
 })
 export class HomeComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
-  public usuario : Usuario = new Usuario(null,null,null,null,null)
+  public usuario : Usuario = new Usuario(null,null,null,null,null,null)
   public page : number = 0 ;
   public pageObj : any;
   public email:string
@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
 }
 getPageClientes(page : number = 0, linesPerPage : number = 10){
   this.clienteService.findClienteByUsuarioPage(this.usuario.id,page,linesPerPage).subscribe((response:any)=>{
-   console.log(response);
     this.pageObj = response;
   })
 }
