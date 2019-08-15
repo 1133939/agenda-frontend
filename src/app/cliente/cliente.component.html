@@ -1,5 +1,5 @@
 <app-topo></app-topo>
-<div *ngIf="cliente !=undefined;else clienteNaoExiste">
+<div *ngIf="cliente !=undefined;else carregando">
 <div class="divesquerda">
     <p class="negrito">{{cliente.nome}}</p>
     <p>Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
@@ -16,11 +16,12 @@
       </div>
     </form>
 </div>
-<ng-template #clienteNaoExiste>
-    <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="180" height="330" >
-    <p class="mensagem">Este cliente não existe.</p> <br>
-
-
+<ng-template #carregando>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 </ng-template>
 
   
@@ -152,13 +153,13 @@
               </div>
               
               <div class="left">
-            <button type="submit" class="btn btn-md btn-secondary btn-block">Buscar entre datas</button>
+            <button type="submit" class="btn btn-md btn-info btn-block">Buscar entre datas</button>         
           </div>
           </form>
        
-
+          <br> <br> <br>
           <div *ngIf="pageObj.body.totalElements == 0; else showPareceres">
-              <p class="mensagem">Não foram encontrados relatórios</p> <br>
+              <p class="mensagem">Não foram encontrados relatórios</p>
           </div>
         <ng-template #showPareceres>
 <table class="table table-hover">
@@ -246,9 +247,14 @@
         </div>
       </div>
       <ng-template #updateDescricaoErro>
-          <div class="modal-body">
+          <div class="modal-body" *ngIf="response !=undefined && response.status != 204;else updating">
              <p class="text-danger">Descrição não foi atualizada.</p>
             </div>
+            <ng-template #updating>
+                <div class="modal-body">
+                    <p class="text-success">Atualizando....</p>
+                </div>
+            </ng-template>
       </ng-template>
       </div>
     </div>
@@ -270,9 +276,12 @@
         </div>
       </div>
       <ng-template #updateClienteErro>
-          <div class="modal-body">
+          <div class="modal-body" *ngIf="response !=undefined && response.status != 204;else atualizando">
              <p class="text-danger">Cliente não foi atualizado.</p>
             </div>
+            <ng-template #atualizando>
+              Atualizando....
+            </ng-template>
       </ng-template>
       </div>
     </div>

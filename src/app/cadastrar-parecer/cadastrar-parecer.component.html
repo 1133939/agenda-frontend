@@ -1,6 +1,6 @@
 <app-topo></app-topo>
 <div class="centro">
-  <div *ngIf="clientes !=undefined">
+  <div *ngIf="clientes !=undefined;else loading">
     <div *ngIf="clientes.length == 0; else showClientes">
         <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="170" height="300" >
         <p>Você ainda não possui clientes, cadastre um novo cliente em <br> Opções > Novo Cliente <br> para poder cadastrar seus respectivos relatórios</p>
@@ -48,21 +48,36 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div *ngIf="response !=null && response.status == 201; else parecerErroCadastro">
+        <div *ngIf="response !=null && response.status == 201; else cadastrando">
           <div class="modal-body">
             Relatório cadastrado.
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="['/cliente',cliente.id]">Ok</button>
+              <button type="button" class="btn btn-primary blue" data-dismiss="modal" [routerLink]="['/cliente',cliente.id]">Ok</button>
             </div>
         </div>
-          <ng-template #parecerErroCadastro>
+        <ng-template #cadastrando>
+        <div *ngIf="form.invalid; else cadastrandoTrue">
+            <div class="modal-body">
+                Campos inválidos
+                </div>
+        </div>
+        <ng-template #cadastrandoTrue>
+            <div *ngIf="response !=null && response.status != 201; else cadastrandoTruedaTrue">
+                <div class="modal-body">
+                   Houve problemas ao cadastrar...
+                    </div>
+            </div>
+            <ng-template #cadastrandoTruedaTrue>
+              
               <div class="modal-body">
-            Houve problemas ao cadastrar, tente de novo.
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
-            </div>
+                  Cadastrando...<div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  </div>
+
+            </ng-template>
+        </ng-template>
           </ng-template>
           
       </div>
@@ -70,4 +85,11 @@
   </div>
 </ng-template>
 </div>
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
 </div>

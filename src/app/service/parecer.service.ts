@@ -22,6 +22,7 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
     responseType: 'json',
     headers
 }).pipe(map((response:any)=>{
+
     return response;
 }))
  }
@@ -108,7 +109,7 @@ return this.http.get(`${URL_API}/parecer/${id}`,{
           })
         };
         
-        return this.http.get(`${URL_API}/parecer/${id}/download`,options);
+        return this.http.get(`${URL_API}/parecer/${id}/download2`,options);
         }
         findParecerByUsuarioPage(id : number, page : number = 0, linesPerPage : number = 10) {
             let headers = new HttpHeaders({

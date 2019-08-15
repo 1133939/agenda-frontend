@@ -30,3 +30,6 @@ p.titulo{
    button.btn.btn-primary{
        background-color: rgb(18, 19, 44)
    }
+   div.text-center{
+    margin-top: 10%;
+}

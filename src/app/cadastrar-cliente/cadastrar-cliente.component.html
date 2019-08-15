@@ -42,16 +42,23 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-         <div *ngIf="response != undefined && response.status==201;else erroCadastrar">    
+         <div *ngIf="response != undefined && response.status==201;else esperandoResposta">    
         <div class="modal-body">
-          Cliente cadastrado com sucesso!
+          <p class="text-success">Cliente cadastrado com sucesso!</p>
         </div>
       </div>
-      <ng-template #erroCadastrar>
+      <ng-template #esperandoResposta>        
+          <div *ngIf="error != undefined; else waitingResponse">  
           <div class="modal-body">
-              Cliente não cadastrado...
+              <p class="text-danger">Problemas ao cadastrar.</p>
             </div>
-      </ng-template>
+          </div>
+          <ng-template #waitingResponse>
+              <div class="modal-body">
+                  Cadastrando......
+                 </div>
+          </ng-template>
+        </ng-template>
     </div>
   </div>
 </div>

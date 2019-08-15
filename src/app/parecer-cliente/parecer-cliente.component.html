@@ -1,5 +1,5 @@
 <app-topo></app-topo>
-<div *ngIf="parecer != undefined">
+<div *ngIf="parecer != undefined; else loading">
 <p class="nome">
 {{parecer.cliente.nome}}
 </p>
@@ -33,7 +33,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div  *ngIf="excluido == 0">
+      <div  *ngIf="excluido == false">
         <div class="modal-body">
           Deseja realmente excluir este relatório?
         </div>
@@ -42,7 +42,7 @@
           <button type="button" class="btn btn-primary" (click)="excluirParecer()">Sim, excluir</button>
         </div>
       </div>
-      <div *ngIf="response != undefined && response.status == 204;">
+      <div *ngIf="response != undefined && response.status == 204; else excluindo">
         <div class="modal-body">
           Relatório excluído com sucesso.
         </div>
@@ -50,14 +50,22 @@
             <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="/">Ok</button>
           </div>
       </div>
-      <div *ngIf="excluido == 2">
-        <div class="modal-body">
-          Houve problemas ao excluir este relatório, tente de novo mais tarde.
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
-          </div>
-      </div>
+      <ng-template #excluindo>
+          <div *ngIf="response != undefined && response.status !=204; else excluindoTrue">
+              <div class="modal-body">
+                Houve problemas ao excluir este relatório, tente de novo mais tarde.
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+            <ng-template #excluindoTrue>
+        <div class="modal-body" *ngIf="excluido==true">
+              Excluindo....
+            </div>
+          </ng-template>
+      </ng-template>
+     
     </div>
   </div>
 </div>
@@ -84,6 +92,10 @@
                </small> 
             </div> 
             <div class="form-group">
+            <label for="titulo">Data </label>
+            <input type="date" class="form-control" autocomplete=off  formControlName="data" > 
+              </div>
+            <div class="form-group">
               <label for="exampleFormControlTextarea1">Descrição do Cliente</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" value={{parecer.descricao}}  formControlName="descricao"></textarea>
             </div>
@@ -97,6 +109,13 @@
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
   
   <!-- Modal  ALTERACAO MENSAGEM-->
   <div class="modal fade" id="modalMensagemAlteracao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,10 +133,18 @@
             </div>
           </div>
           <ng-template #updateRelatorioErro>
+              <div *ngIf="response !=undefined && response.status != 204; else atualizando">
+                  <div class="modal-body">
+                      <p class="text-danger">Relatório não foi atualizado.</p>
+                  </div>      
+              </div>
+          <ng-template #atualizando>
               <div class="modal-body">
-                 <p class="text-danger">Relatório não foi atualizado.</p>
-                </div>
+                  Cadastrando.....           
+                 </div>
           </ng-template>
+          </ng-template>
+          
       </div>
     </div>
   </div>

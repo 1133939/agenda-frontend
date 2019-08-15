@@ -9,9 +9,15 @@ button.btn.btn-primary.mb-2{
     background-color: rgb(9, 28, 46);
     margin: 0 auto;
 }
+button.btn.btn-primary.blue{
+    background-color: rgb(9, 28, 46);
+}
 p{
     text-align: center;
 }
 textarea.form-control{
     background-color: rgb(253, 246, 213);
+}
+div.text-center{
+    margin-top: 15%;
 }

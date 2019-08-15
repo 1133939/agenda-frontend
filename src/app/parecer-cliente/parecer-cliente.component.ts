@@ -26,10 +26,11 @@ export class ParecerClienteComponent implements OnInit {
   public response : any;
   public parecer : Parecer
   public cliente : Cliente
-  public excluido : number=0;
+  public excluido : boolean
   public formUpdateParecer : FormGroup = new FormGroup({
 'titulo' : new FormControl(null, Validators.maxLength(60)),
 'descricao' : new FormControl(null),
+'data' : new FormControl(null),
   })
   constructor(private router : Router, 
     private route :ActivatedRoute, 
@@ -68,11 +69,19 @@ this.parecer=response.body;
     if(this.formUpdateParecer.valid){
     this.response = undefined;
     let parecer : Parecer = new Parecer(this.parecer.id,null,null,null,null)
-    if(this.formUpdateParecer.get('titulo').value!=null || this.formUpdateParecer.get('titulo').value!=""){
+    if(this.formUpdateParecer.get('titulo').value!=null && this.formUpdateParecer.get('titulo').value!=""){
 parecer.titulo=this.formUpdateParecer.get('titulo').value;
     }
-    if(this.formUpdateParecer.get('descricao').value!=null || this.formUpdateParecer.get('descricao').value!=""){
+    if(this.formUpdateParecer.get('descricao').value!=null && this.formUpdateParecer.get('descricao').value!=""){
       parecer.descricao=this.formUpdateParecer.get('descricao').value;
+    }
+    if(this.formUpdateParecer.get('data').value!=null && this.formUpdateParecer.get('data').value!=""){
+      let data : Date = new Date();
+      let ano : number = this.formUpdateParecer.get('data').value.substr(0,4)
+      let mes : number = this.formUpdateParecer.get('data').value.substr(5,2)-1
+      let dia : number = this.formUpdateParecer.get('data').value.substr(8,2)
+      data.setFullYear(ano,mes,dia)
+      parecer.data=data;
     }
     this.parecerService.updateParecer(parecer).subscribe((response:any)=>{
     this.response=response
@@ -82,15 +91,15 @@ parecer.titulo=this.formUpdateParecer.get('titulo').value;
   }
   excluirParecer(){
     this.response = undefined;
-    this.excluido=2;
+    this.excluido=true;
     let parecer : Parecer = new Parecer(this.parecer.id,null,null,null,null)
     this.parecerService.deleteParecer(parecer).subscribe((response:any)=>{
       this.response = response
-      this.excluido=1
+      this.excluido=true;
       })
   }
   excluirOptions(){
-    this.excluido=0;
+    this.excluido=false;
   }
   downloadPDF(){
     this.parecerService.getPdf(this.parecer.id).subscribe((resultBlob: Blob) => {

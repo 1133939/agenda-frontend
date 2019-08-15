@@ -17,6 +17,7 @@ import { HttpResponse } from '@angular/common/http';
 export class CadastrarClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario;
+  public error : any;
   public response : HttpResponse<any>;
   private monthVariableToJava : number = -1;
 public form : FormGroup = new FormGroup({
@@ -48,6 +49,7 @@ public form : FormGroup = new FormGroup({
 }
   cadastrarCliente(){
     this.response = undefined;
+    this.error=undefined;
     this.form.get('nome').markAsTouched();
     this.form.get('nascimento').markAsTouched();
     this.form.get('telefone').markAsTouched();
@@ -75,6 +77,7 @@ public form : FormGroup = new FormGroup({
             this.clienteService.cadastrarCliente(cliente).subscribe((response:any)=>{
               this.response=response;
             },(error:any)=>{
+              this.error=error;
             })
           }
         })

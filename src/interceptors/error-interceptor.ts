@@ -24,6 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor{
                             break;
                             case 400: this.handle400();
                             break;
+                            case 500: this.handle500();
                         }
                       
                        
@@ -38,6 +39,9 @@ export class ErrorInterceptor implements HttpInterceptor{
     }
     handle400(){
      //   localStorage.removeItem('user')
+    }
+    handle500(){
+        this.router.navigate(['/'])
     }
 
 } 

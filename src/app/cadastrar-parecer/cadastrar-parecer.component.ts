@@ -53,9 +53,8 @@ export class CadastrarParecerComponent implements OnInit {
   cadastrarParecer(){
     this.parecerCadastrado=false;
     if(this.form.valid){
-
       for(let aux of this.usuario.clientes){
-        if(aux.nome==this.form.get('cliente').value){
+        if(aux.nome.trim()==this.form.get('cliente').value.trim()){
           this.cliente.id = aux.id;
       }
     }

@@ -15,7 +15,7 @@
                     <label for="nome">Nome</label>
                     <input type="text" class="form-control" placeholder="Nome" autocomplete=off formControlName="nome"> 
                     <small class="form-text text-danger" *ngIf="formUsuario.get('nome').invalid && formUsuario.get('nome').touched">
-                      Nome inválido
+                      Nome inválido, nome deve conter entre 3 e 60 caracteres.
                     </small> 
 
                     <label for="crp">CRP</label>
@@ -24,11 +24,11 @@
                       Crp inválido: tamanho mínimo 3 e máximo 8
                     </small> 
 
-                    <label for="exampleInputPassword1">Senha</label>
+                    <label for="exampleInputPassword1">Nova Senha</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" 
                     autocomplete="off"  formControlName="senha" #stringSenha (keyup)="setSenha(stringSenha.value)">
                     <small class="form-text text-danger" *ngIf="formUsuario.get('senha').invalid && formUsuario.get('senha').touched"
-                    >Senha deve conter pelo menos 6 caracteres</small>
+                    >Senha deve conter entre 6 e 30 caracteres</small>
             
                     <label for="exampleInputPassword1">Confirmar Senha</label>
                     <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Senha" 
@@ -50,22 +50,30 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div *ngIf="response != undefined && response.status == 204">
+                  <div *ngIf="response != undefined && response.status == 204; else atualizando">
                     <div class="modal-body">
                         Usuário atualizado com sucesso.
                       </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal" routerLink="/">Ok</button>
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="/">Ok</button>
                         </div>
                       </div>
-                      <div *ngIf="response != undefined && response.status !=204">
-                          <div class="modal-body">
-                          Houve problemas ao atualizar, tente de novo.
+                      <ng-template #atualizando>
+                          <div *ngIf="response != undefined && response.status !=204;else atualizandoTrue">
+                              <div class="modal-body">
+                              Houve problemas ao atualizar, tente de novo.
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                                </div>
                           </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                            </div>
-                      </div>
+                          <ng-template #atualizandoTrue>
+                              <div class="modal-body">
+                                  Atualizando....
+                                  </div>
+                          </ng-template>
+                      </ng-template>
+                     
                   
                 </div>
               </div>
