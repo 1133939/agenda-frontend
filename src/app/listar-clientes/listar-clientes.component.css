@@ -3,12 +3,6 @@
 }
 p{
     text-align: center;
-    margin-top:10%;
-}
-p.lead.cabecalho{
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 1%;
 }
 .centro{
 margin:auto;
@@ -34,7 +28,4 @@ img.d-block.mx-auto.mb-4{
 }
 div.text-center{
     margin-top: 20%;
-}
-button{
-  margin-top: 7%;
 }

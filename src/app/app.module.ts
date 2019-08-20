@@ -18,6 +18,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from 'src/interceptors/error-interceptor';
 import { EsqueciSenhaComponent } from './esqueci-senha/esqueci-senha.component';
 import { UpdateUsuarioComponent } from './update-usuario/update-usuario.component';
+import { CadastrarAtendimentoComponent } from './cadastrar-atendimento/cadastrar-atendimento.component';
+import { AtendimentoComponent } from './atendimento/atendimento.component';
+import { ListarClientesComponent } from './listar-clientes/listar-clientes.component';
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
@@ -32,7 +35,10 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ParecerClienteComponent,
     CadastrarUsuarioComponent,
     EsqueciSenhaComponent,
-    UpdateUsuarioComponent
+    UpdateUsuarioComponent,
+    CadastrarAtendimentoComponent,
+    AtendimentoComponent,
+    ListarClientesComponent
   ],
   imports: [
     BrowserModule,

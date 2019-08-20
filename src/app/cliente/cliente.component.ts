@@ -10,12 +10,13 @@ import { Parecer } from '../model/parecer.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClienteDTO } from '../model/clienteDTO.model';
 import { UsuarioDTO } from '../model/usuarioDTO.model';
+import { AtendimentoService } from '../service/atendimento.service';
 
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css'],
-  providers:[UsuarioService, ClienteService, ParecerService]
+  providers:[UsuarioService, ClienteService, ParecerService, AtendimentoService]
 })
 export class ClienteComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
@@ -23,6 +24,8 @@ export class ClienteComponent implements OnInit {
   public email:string
   public pageObj : any;
   public page : number = 0;
+  public pageAt : number = 0;
+  public pageAtendimentos : any;
   public response : any;
   public transferiu : boolean = false;
   public cliente : Cliente
@@ -49,7 +52,8 @@ export class ClienteComponent implements OnInit {
     private route :ActivatedRoute, 
     private usuarioService : UsuarioService,
     private clienteService : ClienteService,
-    private parecerService : ParecerService
+    private parecerService : ParecerService,
+    private atendimentoService : AtendimentoService
     
     ) { }
 
@@ -79,6 +83,7 @@ export class ClienteComponent implements OnInit {
         this.clienteService.getClienteById(aux.id).subscribe((response:any)=>{
            this.cliente=response;
            this.getPagePareceres();
+           this.getAtendimentos();
         })
         this.parecerService.getParecerByIdCliente(aux.id).subscribe((response:any)=>{
           this.pareceres = response;
@@ -174,7 +179,7 @@ this.usuarioService.getUsuarioByEmailReduzido(this.formTransferir.get('email').v
     })
   }
   mudarStatusCliente(status : string){
-    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,null,null,null,null,null);
+    let cliente : Cliente = new Cliente(this.cliente.id,null,null,null,null,null,null,null,null,null);
     if(status=='ativo'){
 cliente.status=0;
     }else
@@ -206,4 +211,29 @@ cliente.status=1;
   this.page= page;
   this.getPagePareceres(this.page);
   }
+
+
+
+  pageSeguinteAtendimento(){
+    this.pageAt++;
+    this.getAtendimentos(this.pageAt);
+    }
+    pageAnteriorAtendimento(){
+      if(this.pageAt>0){
+        this.pageAt--;
+        this.getAtendimentos(this.pageAt);
+      }
+    }
+    setPaginaAtendimento(pageAt : number){
+    this.pageAt= pageAt;
+    this.getAtendimentos(this.pageAt);
+    }
+    
+    
+    getAtendimentos(pageAt : number = 0, linesPerPage : number = 10){
+      this.atendimentoService.getAllAtendimentos(this.cliente.id,pageAt,linesPerPage).subscribe((response:any)=>{
+        this.pageAtendimentos=response;
+      })
+    }
+
 }

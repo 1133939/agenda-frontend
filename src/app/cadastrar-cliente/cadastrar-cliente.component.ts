@@ -69,6 +69,7 @@ public form : FormGroup = new FormGroup({
         data_nascimento,
         null,
         usuario,
+        null,
         0)
         this.clienteService.findClienteByNome(this.form.get('nome').value, this.usuario.id).subscribe((response:any)=>{
           if(response.nome != null){

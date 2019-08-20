@@ -16,7 +16,7 @@ import { Parecer } from '../model/parecer.model';
   providers:[UsuarioService, ClienteService, ParecerService]
 })
 export class CadastrarParecerComponent implements OnInit {
-  public cliente : Cliente = new Cliente(null,null,null,null,null,null,null,null,null)
+  public cliente : Cliente = new Cliente(null,null,null,null,null,null,null,null,null,null)
   public usuario:Usuario;
   public parecerCadastrado : boolean
   public response : any;

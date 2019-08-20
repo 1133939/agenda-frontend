@@ -1,6 +1,66 @@
 <app-topo></app-topo>
 <div class="centro">
 
+  <div *ngIf="pageAtendimentos !== undefined;else loading">
+    <img class="d-block mx-auto mb-4" src="../../assets/doc_paciente_img.png" alt="" width="150" height="150" >
+    <p class="lead cabecalho">Próximos atendimentos</p>
+  <div *ngIf="pageAtendimentos.body.totalElements == 0; else showClientes">
+      <!-- <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="170" height="300" > -->
+      <p class="lead">Você não possui nenhum atendimento marcado!</p>
+      <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-primary btn-md" routerLink="listar_clientes">
+          Ir para lista de clientes
+         </button>
+        </div>
+        </div> 
+  <ng-template #showClientes>
+<table class="table table-hover">
+    <thead>
+      <tr class="blue">
+        <th scope="col">Cliente</th>
+        <th scope="col">Titulo</th>
+        <th scope="col">Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="itens" *ngFor="let atendimento of pageAtendimentos.body.content" [routerLink]="['/atendimento', atendimento.id]" >
+        <td scope="row">{{atendimento.cliente.nome}}</td>
+        <td>{{atendimento.titulo}}</td>
+        <td>{{atendimento.data | date : 'dd/MM/yyyy'}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center">
+  <nav>
+<ul class="pagination">
+  <li class="page-item"><a class="page-link" (click)="pageAnterior()" *ngIf="page!=0">Anterior</a></li>
+  <li class="page-item"><a class="page-link" (click)="setPagina(page)" *ngIf="pageAtendimentos.body.totalPages>page">{{page+1}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPagina(page+1)" *ngIf="pageAtendimentos.body.totalPages>page+1">{{page+2}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPagina(page+2)" *ngIf="pageAtendimentos.body.totalPages>page+2">{{page+3}}</a></li>
+
+  <li class="page-item"><a class="page-link" (click)="pageSeguinte()" *ngIf="pageAtendimentos.body.totalPages > page+1">Próximo</a></li>
+</ul>
+</nav>
+</div>
+</ng-template>
+</div>
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
+</div>
+
+
+
+
+
+
+<!-- <app-topo></app-topo>
+<div class="centro">
+
   <div *ngIf="pageObj !== undefined;else loading">
   <div *ngIf="pageObj.totalElements == 0; else showClientes">
       <img class="d-block mx-auto mb-4" src="../../assets/grr_img.jpg" alt="" width="170" height="300" >
@@ -48,4 +108,4 @@
     </div>
   </div>
 </ng-template>
-</div>
+</div> -->

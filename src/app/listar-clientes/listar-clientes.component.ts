@@ -8,15 +8,16 @@ import { ClienteService } from '../service/cliente.service';
 import { AtendimentoService } from '../service/atendimento.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-listar-clientes',
+  templateUrl: './listar-clientes.component.html',
+  styleUrls: ['./listar-clientes.component.css'],
   providers:[UsuarioService,ClienteService, AtendimentoService]
 })
-export class HomeComponent implements OnInit {
+export class ListarClientesComponent implements OnInit {
   public jwtHelperService : JwtHelperService = new JwtHelperService();
   public usuario : Usuario = new Usuario(null,null,null,null,null,null)
   public page : number = 0 ;
+  public pageObj : any;
   public pageAtendimentos: any;
   public email:string
   public clientes : Array<Cliente>
@@ -35,41 +36,29 @@ export class HomeComponent implements OnInit {
         this.email = this.jwtHelperService.decodeToken(localStorage.getItem('user').substr(7)).sub
         this.usuarioService.getUsuarioByEmail(this.email).subscribe((response:any)=>{
           this.usuario = response;
-          this.getProximosAtendimentos();
-      //    this.getPageClientes();
+         this.getPageClientes();
         })
       }
    
   }
 }
-// getPageClientes(page : number = 0, linesPerPage : number = 10){
-//   this.clienteService.findClienteByUsuarioPage(this.usuario.id,page,linesPerPage).subscribe((response:any)=>{
-//     this.pageObj = response;
-//   })
-// }
+getPageClientes(page : number = 0, linesPerPage : number = 10){
+  this.clienteService.findClienteByUsuarioPage(this.usuario.id,page,linesPerPage).subscribe((response:any)=>{
+    this.pageObj = response;
+  })
+}
 pageSeguinte(){
 this.page++;
-this.getProximosAtendimentos(this.page);
+this.getPageClientes(this.page);
 }
 pageAnterior(){
   if(this.page>0){
     this.page--;
-    this.getProximosAtendimentos(this.page);
+    this.getPageClientes(this.page);
   }
 }
 setPagina(page : number){
 this.page= page;
-this.getProximosAtendimentos(this.page);
-}
-
-
-getProximosAtendimentos(page : number = 0, linesPerPage : number = 10){
-  this.atendimentoService.getProximosAtendimentos(this.usuario.id,page,linesPerPage).subscribe((response:any)=>{
-    this.pageAtendimentos=response;
-  })
+this.getPageClientes(this.page);
 }
 }
-
-
-
-

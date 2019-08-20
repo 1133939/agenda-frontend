@@ -6,7 +6,11 @@
     <p>Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
     <p>Endereço: {{cliente.endereco}}</p>
     <br>
-        <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
+    <button type="button" class="btn btn-primary" [routerLink]="['/cadastrar_atendimento', cliente.id]">Agendar Atendimento</button>
+    <br>
+    <br>
+    <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
+
   </div>      
     <form [formGroup]="formUpdate" (ngSubmit)="addDescricao()">
       <div class="form-group">
@@ -192,6 +196,47 @@
     </div>
   </ng-template>
 </div>
+
+
+
+<div *ngIf="pageAtendimentos !=undefined;else carregando">
+    <div *ngIf="pageAtendimentos.body.totalElements == 0; else showAtendimentos">
+        <p class="mensagem">Não foram encontrados atendimentos</p>
+    </div>
+  <ng-template #showAtendimentos>
+    <p class="negrito-relatorio">Plano de Atendimentos</p>
+<table class="table table-hover">
+    <thead>
+      <tr class="blue">
+        <th scope="col">Cliente</th>
+        <th scope="col">Titulo</th>
+        <th scope="col">Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="itens" *ngFor="let atendimento of pageAtendimentos.body.content" [routerLink]="['/atendimento', atendimento.id]" >
+        <td scope="row">{{atendimento.cliente.nome}}</td>
+        <td>{{atendimento.titulo}}</td>
+        <td>{{atendimento.data | date : 'dd/MM/yyyy'}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center">
+  <nav>
+<ul class="pagination">
+  <li class="page-item"><a class="page-link" (click)="pageAnteriorAtendimento()" *ngIf="page!=0">Anterior</a></li>
+  <li class="page-item"><a class="page-link" (click)="setPaginaAtendimento(pageAt)" *ngIf="pageAtendimentos.body.totalPages>pageAt">{{pageAt+1}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPaginaAtendimento(pageAt+1)" *ngIf="pageAtendimentos.body.totalPages>pageAt+1">{{pageAt+2}}</a></li>
+  <li class="page-item"><a class="page-link"  (click)="setPaginaAtendimento(pageAt+2)" *ngIf="pageAtendimentos.body.totalPages>pageAt+2">{{pageAt+3}}</a></li>
+
+  <li class="page-item"><a class="page-link" (click)="pageSeguinteAtendimento()" *ngIf="pageAtendimentos.body.totalPages > pageAt+1">Próximo</a></li>
+</ul>
+</nav>
+</div>
+</ng-template>
+</div>
+
+
 <!-- Botão para acionar modal ATIVAR DESATIVAR -->
 <p class="mensagem">Desativar um cliente serve para taxar o cliente como um cliente que não está fazendo consultas por algum tempo.</p>
 <div class="d-flex justify-content-center">
