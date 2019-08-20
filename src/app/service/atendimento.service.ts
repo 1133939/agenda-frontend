@@ -38,7 +38,7 @@ export class AtendimentoService{
             headers
         })
         .pipe(map((response:any)=>{
-            console.log(response)
+
             return response;
         }))
      }
@@ -48,7 +48,7 @@ export class AtendimentoService{
             'Content-Type' : 'application/json',
             'Authorization' : localStorage.getItem('user')
         })
-        console.log('ID',id)
+    
         return this.http.get(`${URL_API}/atendimento/page/cliente/${id}`,{
             observe:'response',
             responseType: 'json',

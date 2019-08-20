@@ -19,15 +19,15 @@ margin:auto;
 }
 tr.blue{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background-color: rgb(137, 189, 189);
+    background-color: rgb(220, 224, 224);
 }
 tr.itens{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color:rgb(197, 197, 197);
-    background-color: rgb(9, 28, 46);
+    color:rgb(255, 255, 255);
+    background-color: rgb(57, 134, 250);
 }
 table.table.table-hover tr.itens:hover{
-    background-color: rgb(138, 170, 219);
+    background-color: rgb(77, 233, 181);
 }
 img.d-block.mx-auto.mb-4{
     margin-top:2%
@@ -37,4 +37,7 @@ div.text-center{
 }
 button{
   margin-top: 7%;
+}
+p.lead.small{
+    font-size: 15px;
 }

@@ -31,3 +31,6 @@ p.lead.cliente:hover{
     cursor: pointer;
     color:blue;
 }
+button {
+    margin-left:1%;
+}

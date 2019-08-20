@@ -41,7 +41,6 @@ export class ErrorInterceptor implements HttpInterceptor{
      //   localStorage.removeItem('user')
     }
     handle500(){
-        this.router.navigate(['/'])
     }
 
 } 

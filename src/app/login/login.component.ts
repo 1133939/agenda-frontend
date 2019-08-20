@@ -61,11 +61,9 @@ export class LoginComponent implements OnInit {
     response.status = 800;
     this.response=response;
     let email : string = "WW"
-    this.usuarioService.testarConexao(email).subscribe((response:any)=>{
-      console.log(response)
+    this.usuarioService.testarConexao(email).subscribe((response:any)=>{ 
       this.response = response;
     },error=>{
-      console.log(error)
       this.error = error})
 
   }

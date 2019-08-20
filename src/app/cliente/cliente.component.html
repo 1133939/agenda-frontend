@@ -1,12 +1,13 @@
 <app-topo></app-topo>
 <div *ngIf="cliente !=undefined;else carregando">
 <div class="divesquerda">
-    <p class="negrito">{{cliente.nome}}</p>
-    <p>Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
-    <p>Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
-    <p>Endereço: {{cliente.endereco}}</p>
+    <p class="lead">{{cliente.nome}}</p>
+    <p class="desc">Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
+    <p class="desc">Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
+    <p class="desc">Endereço: {{cliente.endereco}}</p>
     <br>
-    <button type="button" class="btn btn-primary" [routerLink]="['/cadastrar_atendimento', cliente.id]">Agendar Atendimento</button>
+
+    <button type="button" class="btn btn-primary" [routerLink]="['/cadastrar_atendimento', cliente.id]">Agendar atendimento + </button>
     <br>
     <br>
     <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
@@ -135,7 +136,7 @@
   </div>
 </div>
 
-
+<br><br>
 
 <div *ngIf="cliente !=undefined">
   <div class="divdireita">
@@ -143,7 +144,8 @@
           <p class="negrito-relatorio">Relatórios</p>
           
           <form [formGroup]="formDatas" (ngSubmit)="buscarPorData()">
-              <div class="left">
+              <div class="d-flex justify-content-center">
+            <div class="left">
             <input type="date" class="form-control" autocomplete=off  formControlName="dataInicial">
             <small class="form-text text-info" *ngIf="formDatas.get('dataInicial').touched && formDatas.get('dataInicial').pending || formDatas.get('dataInicial').invalid && formDatas.get('dataInicial').touched">
               Insira as datas caso queira buscar. </small>    
@@ -159,11 +161,14 @@
               <div class="left">
             <button type="submit" class="btn btn-md btn-info btn-block">Buscar entre datas</button>         
           </div>
+        </div>
           </form>
        
-          <br> <br> <br>
           <div *ngIf="pageObj.body.totalElements == 0; else showPareceres">
-              <p class="mensagem">Não foram encontrados relatórios</p>
+            <br>
+            <div class="d-flex justify-content-center">
+              <p class="lead">Não foram encontrados relatórios</p>
+            </div>
           </div>
         <ng-template #showPareceres>
 <table class="table table-hover">
@@ -200,11 +205,13 @@
 
 
 <div *ngIf="pageAtendimentos !=undefined;else carregando">
+    <p class="negrito-relatorio">Plano de Atendimentos</p>
     <div *ngIf="pageAtendimentos.body.totalElements == 0; else showAtendimentos">
-        <p class="mensagem">Não foram encontrados atendimentos</p>
+        <div class="d-flex justify-content-center">
+        <p class="lead">Não foram encontrados atendimentos</p>
+        </div>
     </div>
   <ng-template #showAtendimentos>
-    <p class="negrito-relatorio">Plano de Atendimentos</p>
 <table class="table table-hover">
     <thead>
       <tr class="blue">
@@ -238,17 +245,18 @@
 
 
 <!-- Botão para acionar modal ATIVAR DESATIVAR -->
-<p class="mensagem">Desativar um cliente serve para taxar o cliente como um cliente que não está fazendo consultas por algum tempo.</p>
+<br><br>
+
 <div class="d-flex justify-content-center">
 <button *ngIf="cliente.status=='1';else clienteInativo" type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('inativo')">
-   Desativar
+   Desativar Cliente
   </button>
 <ng-template #clienteInativo>
     <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mudarStatusCli" (click)="mudarStatusCliente('ativo')">
-        Ativar
+        Ativar Cliente
        </button>
 </ng-template>
-<button type="button" class="btn btn-primary btn-md"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir</button>
+<button type="button" class="btn btn-primary btn-md"  data-toggle="modal" data-target="#modalTransferirCliente">Tranferir para: </button>
 </div>
 </div>
 </div>

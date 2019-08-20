@@ -10,6 +10,10 @@ p.negrito{
     font-weight: bold;
     font-style: italic;
 }
+p.desc{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
 p.negrito-relatorio{
     margin-top:6%;
     font-weight: bold;
@@ -53,7 +57,7 @@ a.direita:hover{
 }
 .divdireita{
     position:relative;
-    float:left;
+    float:none;
     margin:auto;
     margin-top: 2%;
     margin-left: 2%;
@@ -118,4 +122,7 @@ tr.itens{
 }
 table.table.table-hover tr.itens:hover{
     background-color: rgb(138, 170, 219);
+}
+p.lead.small{
+    font-size: 15px;
 }
