@@ -1,14 +1,13 @@
 <app-topo></app-topo>
 <div *ngIf="cliente !=undefined;else carregando">
 <div class="divesquerda">
-    <p class="lead">{{cliente.nome}}</p>
-    <p class="desc">Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
+  <p class="lead">{{cliente.nome}}</p>
+  <button type="button" class="btn btn-primary left" [routerLink]="['/cadastrar_atendimento', cliente.id]"> + </button>
+  <br><br><br>
+  <p class="desc">Data de nascimento: {{cliente.dataNascimento | date : 'dd/MM/yyyy'}}</p>
     <p class="desc">Telefone: {{cliente.telefone | mask: '(00)90000-0000'}}</p>
     <p class="desc">Endereço: {{cliente.endereco}}</p>
-    <br>
 
-    <button type="button" class="btn btn-primary" [routerLink]="['/cadastrar_atendimento', cliente.id]">Agendar atendimento + </button>
-    <br>
     <br>
     <a class="direita" data-toggle="modal" data-target="#modalExemplo">Alterar informações</a>
 

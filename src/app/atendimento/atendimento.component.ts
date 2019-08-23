@@ -58,7 +58,6 @@ export class AtendimentoComponent implements OnInit {
   buscandoAtendimento(param : number){
 
         this.atendimentoService.getAtendimentoById(param).subscribe((response:any)=>{
-          console.log(response)
 this.cliente = response.body.cliente;
 this.atendimento=response.body;
         })
@@ -79,6 +78,7 @@ atendimento.titulo=this.formUpdate.get('titulo').value;
       let mes : number = this.formUpdate.get('data').value.substr(5,2)-1
       let dia : number = this.formUpdate.get('data').value.substr(8,2)
       data.setFullYear(ano,mes,dia)
+      data.setHours(23,59,59,0);
       atendimento.data=data;
     }
     this.atendimentoService.updateAtendimento(atendimento).subscribe((response:any)=>{

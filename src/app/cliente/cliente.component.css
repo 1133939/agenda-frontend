@@ -72,6 +72,10 @@ a.direita:hover{
     width: 40%;
     background-color: white;
 }
+button.btn.btn-primary.left{
+float:left;
+margin-left:2%;
+}
 label.direita{
     width: 49%;
 float:left;
@@ -126,3 +130,9 @@ table.table.table-hover tr.itens:hover{
 p.lead.small{
     font-size: 15px;
 }
+p.lead{
+    margin-top:2.5%;
+    float:left;
+}
+
+
