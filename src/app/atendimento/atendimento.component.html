@@ -3,7 +3,7 @@
     <p class="lead cliente" [routerLink]="['/cliente' , atendimento.cliente.id]">
     {{atendimento.cliente.nome}}
     </p>
-    
+    <!-- adicionando comentário -->
     <p class="lead small">
        Tel: {{atendimento.cliente.telefone | mask: '(00)90000-0000'}}
         </p>
@@ -22,7 +22,8 @@
       Excluir
     </button>
     </div>
-    
+        <!-- adicionando comentário -->
+
     
     <!-- Modal -->
     <div class="modal fade" id="excluirRelatorio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
